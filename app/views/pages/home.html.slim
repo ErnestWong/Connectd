@@ -1,16 +1,16 @@
-h1
+h1.main-heading
  |  Welcome to Connectd
 -if user_signed_in?
   =link_to "Profile", user_path(current_user)
-  
+
   p= link_to "Log out", destroy_user_session_path, method: :delete
--else 
+-else
   h2
     | Log in
   = simple_form_for(:user, url: session_path(:user)) do |f|
     .form-inputs
       = f.input :email
-      = f.input :password 
+      = f.input :password
     .form-actions
       = f.button :submit, "Log in"
 
