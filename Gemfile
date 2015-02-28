@@ -17,6 +17,7 @@ gem 'slim-rails'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'devise'
+gem 'turbolinks'
 
 group :development do
   gem 'letter_opener'
