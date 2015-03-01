@@ -1,19 +1,4 @@
-
-
 -if user_signed_in?
-  =link_to "Log out", destroy_user_session_path, method: :delete
+  == render "authenticated_home"
 -else
-  h1.main-heading
-    |  Welcome to Connectd
-  span#toggle-login.button href="#"  Log in
-  #login
-    #triangle
-    h1 Log in
-    = simple_form_for(:user, url: session_path(:user)) do |f|
-      .form-inputs
-        = f.input :email
-        = f.input :password
-      .form-actions
-        = f.button :submit, "Log in"
-      =link_to "Sign up", new_user_registration_path
-
+  == render "unauthenticated_home"
