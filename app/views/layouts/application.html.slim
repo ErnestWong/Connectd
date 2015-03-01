@@ -18,10 +18,14 @@ html
           a href="#"  Right Button Dropdown
           ul.dropdown
             li
-              =link_to "Log out", destroy_user_session_path, method: :delete
             -if user_signed_in?
               li
                 =link_to "Profile", user_path(current_user)
+              li
+                =link_to "Log out", destroy_user_session_path, method: :delete
+            -else
+              li
+                =link_to "Sign up", new_user_registration_path
       /! Left Nav Section
       ul.left
         li
