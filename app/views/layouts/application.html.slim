@@ -15,7 +15,10 @@ html
         li.active
           a href="#"  Right Button Active
         li.has-dropdown
-          a href="#"  Right Button Dropdown
+          -if user_signed_in?
+            a href="#" ="#{current_user.first_name} #{current_user.last_name}"
+          -else
+            a href="#"  Right Button Dropdown
           ul.dropdown
             li
             -if user_signed_in?
