@@ -60,12 +60,12 @@ body{
   color:#fff;
 }
 
-form{
+.connectd-form{
   background:#f0f0f0;
   padding:6% 4%;
 }
 
-input[type="email"],input[type="password"]{
+.connectd-form input[type="email"],input[type="password"]{
   width:92%;
   background:#fff;
   margin-bottom:4%;
@@ -76,7 +76,7 @@ input[type="email"],input[type="password"]{
   color:#555;
 }
 
-input[type="submit"]{
+.connectd-form input[type="submit"]{
   width:100%;
   background:#3399cc;
   border:0;
@@ -89,6 +89,6 @@ input[type="submit"]{
   -webkit-transition:background .3s;
 }
 
-input[type="submit"]:hover{
+.connectd-form input[type="submit"]:hover{
   background:#2288bb;
 }
