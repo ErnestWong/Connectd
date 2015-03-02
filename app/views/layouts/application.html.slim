@@ -1,5 +1,35 @@
 doctype html
 html
+  nav.top-bar data-topbar="" role="navigation"
+    ul.title-area
+      li.name
+        h1
+          a href="#{root_path}"  Connectd
+      /! Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone
+      li.toggle-topbar.menu-icon
+        a href="#"
+          span Menu
+    section.top-bar-section
+      /! Right Nav Section
+      ul.right
+        li.active
+          a href="#"  Right Button Active
+        li.has-dropdown
+          a href="#"  Right Button Dropdown
+          ul.dropdown
+            li
+            -if user_signed_in?
+              li
+                =link_to "Profile", user_path(current_user)
+              li
+                =link_to "Log out", destroy_user_session_path, method: :delete
+            -else
+              li
+                =link_to "Sign up", new_user_registration_path
+      /! Left Nav Section
+      ul.left
+        li
+          a href="#"  Left Nav Button
   head
     title
       | Connectd

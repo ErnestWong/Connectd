@@ -1,17 +1,4 @@
-h1
- |  Welcome to Connectd
 -if user_signed_in?
-  =link_to "Profile", user_path(current_user)
-  
-  p= link_to "Log out", destroy_user_session_path, method: :delete
--else 
-  h2
-    | Log in
-  = simple_form_for(:user, url: session_path(:user)) do |f|
-    .form-inputs
-      = f.input :email
-      = f.input :password 
-    .form-actions
-      = f.button :submit, "Log in"
-
-  =link_to "Sign up", new_user_registration_path
+  == render "authenticated_home"
+-else
+  == render "unauthenticated_home"

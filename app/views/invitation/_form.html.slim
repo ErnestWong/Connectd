@@ -1,4 +1,4 @@
-=simple_form_for @invitation do |f|
+=simple_form_for(@invitation, html: {class: 'connectd-form'}) do |f|
   =f.input :friend_id
 
   button Invite
