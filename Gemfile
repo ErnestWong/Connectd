@@ -26,8 +26,8 @@ end
 
 group :development, :test do
   gem 'awesome_print'
-  gem 'byebug'
-  gem 'web-console', '~> 2.0'
+  gem 'byebug', '3.5.1'
+  gem 'web-console', '2.1.0'
   gem 'spring'
   gem 'dotenv-rails'
   gem 'factory_girl_rails'
