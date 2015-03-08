@@ -1,0 +1,10 @@
+= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "connectd-form sign-in-form" }) do |f|
+  h2.main-heading
+    | Log in
+  .form-inputs
+    = f.input :login, required: false, autofocus: true
+    = f.input :password, required: false
+    = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+  .form-actions
+    = f.button :submit, "Log in"
+= render "devise/shared/links"
