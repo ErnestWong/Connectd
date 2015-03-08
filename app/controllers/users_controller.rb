@@ -3,6 +3,6 @@ class UsersController < ApplicationController
 
   def show
     @user ||= current_user
-    @invitation = Invitation.new
+    render 'show'
   end
 end
