@@ -12,4 +12,11 @@ class UsersController < ApplicationController
     render 'users/invite'
   end
 
+  def profile
+    @user = User.find_by_username!(params[:username])
+  end
+protected
+  def invitation_params
+    params.require(:user).permit(:username)
+  end
 end

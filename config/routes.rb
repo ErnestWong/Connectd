@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :users, only: [:show]
   resources :invitations, :controller => 'invitations', only: [:new, :create, :index]
+
+  # route username show path to have username in it
+  match "/:username"  => "users#show", via: "get"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
