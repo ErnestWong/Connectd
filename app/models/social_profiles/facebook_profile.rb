@@ -1,0 +1,2 @@
+class FacebookProfile < SocialProfile
+end

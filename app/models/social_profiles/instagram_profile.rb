@@ -1,0 +1,2 @@
+class InstagramProfile < SocialProfile
+end
