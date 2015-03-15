@@ -1,6 +1,7 @@
 class Invitation < ActiveRecord::Base
   belongs_to :user
   belongs_to :friend, class_name: 'User'
+  has_many :social_profiles
   validates :user_id, :friend_id, presence: true
   validate :friend_exists 
   
