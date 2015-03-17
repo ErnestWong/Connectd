@@ -9,7 +9,7 @@ class InvitationsController < ApplicationController
     else
       flash[:notice] = "invitation failed"
       @user = current_user
-      redirect_to current_user
+      render "users/show"
     end
   end
 
