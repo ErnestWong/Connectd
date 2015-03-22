@@ -77,8 +77,16 @@ class User < ActiveRecord::Base
      permalink
   end
 
-  private
-     def create_permalink
-          self.permalink = username.downcase
-     end
+private
+
+  def create_permalink
+   self.permalink = username.downcase
+  end
+
+  def self.search_username(user_name)
+    if user_name
+      user_name.downcase!
+      where('LOWER(username) LIKE ?', "%#{user_name}%")
+    end
+  end
 end
