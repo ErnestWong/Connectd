@@ -1,0 +1,4 @@
+div align="center"
+=button_to "Get Connectd", {:controller => :invitations,
+  :action => 'create', :friend_id => @user.id, :method => :create },
+  {class: 'button'}
