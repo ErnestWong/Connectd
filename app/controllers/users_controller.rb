@@ -3,6 +3,8 @@ class UsersController < ApplicationController
 
   def show
     @user ||= current_user
+    @user = User.find(params[:id]) if @user.nil?
+    render 'show'
   end
 
   def invite
@@ -20,11 +22,16 @@ protected
 
   def search
     searchResults = User.query(profile_params[:search_query])
-    # when there is only one search result, show the user's profile directly
-    if(searchResults.length == 1)
+    if(searchResults.length > 1)
+      # render template with list of results
+      @results = searchResults
+      render 'show_search_results'
+    elsif(searchResults.length == 1)
+      # when there is only one search result, show the user's profile directly
       @user = searchResults.first
       render 'show'
     else
+      # display no_results page on no results
       @search_query = profile_params[:search_query]
       render 'no_results'
     end
