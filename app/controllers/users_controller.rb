@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 protected
 
   def search
-    searchResults = User.search_username(profile_params[:username])
+    searchResults = User.query(profile_params[:username])
     # when there is only one search result, show the user's profile directly
     if(searchResults.length == 1)
       @user = searchResults.first
