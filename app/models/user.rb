@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
 
   before_save :create_permalink
 
+  before_save :create_permalink
+
   attr_accessor :login
 
   def login=(login)
@@ -98,4 +100,13 @@ private
         query, query, query, query)
     end
   end
+
+  def to_param
+     permalink
+  end
+
+  private
+     def create_permalink
+          self.permalink = username.downcase
+     end
 end
