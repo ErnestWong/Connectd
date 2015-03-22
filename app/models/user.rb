@@ -54,4 +54,11 @@ class User < ActiveRecord::Base
       user.password = Devise.friendly_token[0, 20]
     end
   end
+
+  def self.search_username(user_name)
+    if user_name
+        user_name.downcase!
+        where('LOWER(username) LIKE ?', "%#{user_name}%")
+    end
+  end
 end

@@ -5,7 +5,8 @@ class InvitationsController < ApplicationController
     @invitation = current_user.invitations.build(invitation_params)
     if @invitation.save
       flash[:notice] = "invitation sent"
-      redirect_to user_path(current_user)
+      @user = User.find_by_username!('peterchu')
+      render 'users/show'
     else
       flash[:notice] = "invitation failed"
       @user = current_user
@@ -18,11 +19,6 @@ class InvitationsController < ApplicationController
     @invitation.destroy
     flash[:notice] = "Cancelled invitation"
     redirect_to current_user
-  end
-
-  def index
-    @invitation = Invitation.new
-    render 'new'
   end
 
 protected

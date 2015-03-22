@@ -11,13 +11,23 @@ class UsersController < ApplicationController
     render 'users/invite'
   end
 
-  def profile
-    @user = User.find_by_username!(params[:username])
+  def searchIndex
+    @user = User.new
+    render 'search'
   end
 
 protected
 
-  def invitation_params
+  def search
+    searchResults = User.search_username(profile_params[:username])
+    # when there is only one search result, show the user's profile directly
+    if(searchResults.length == 1)
+      @user = searchResults.first
+      render 'show'
+    end
+  end
+
+  def profile_params
     params.require(:user).permit(:username)
   end
 end

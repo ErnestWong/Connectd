@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => { registrations: 'registrations', omniauth_callbacks: "users/omniauth_callbacks"}
   resources :users, only: [:show]
-  resources :invitations, only: [:new, :create, :index]
+  resources :invitations, only: [:new, :create]
 
   # route username show path to have username in it
   match "/:username"  => "users#show", via: "get"
+
+  get 'user/search_index', :to => 'users#searchIndex'
+  get 'user/search', :to => 'users#search'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
