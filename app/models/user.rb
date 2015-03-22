@@ -89,4 +89,13 @@ private
       where('LOWER(username) LIKE ?', "%#{user_name}%")
     end
   end
+
+  def self.query(query)
+    if query
+      query.downcase!
+      where('LOWER(username)=? OR LOWER(email)=?
+        OR LOWER(first_name)=? OR LOWER(last_name)=?',
+        query, query, query, query)
+    end
+  end
 end
