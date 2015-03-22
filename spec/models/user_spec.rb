@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  before do
+    @user = build(:user)
+  end
+
   subject { build_stubbed :user }
 
   it 'should have a valid factory' do
@@ -83,4 +87,7 @@ RSpec.describe User, type: :model do
     end
   end
 
+  it "should be valid" do
+    expect(@user.valid?).to eq(true)
+  end
 end
