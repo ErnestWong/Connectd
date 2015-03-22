@@ -6,7 +6,7 @@ span#toggle-login.button href="#"  Log in
   h1 Log in
   = simple_form_for(:user, url: session_path(:user), html: {class: 'connectd-form'}) do |f|
     .form-inputs
-      = f.input :email
+      = f.input :login
       = f.input :password
     .form-actions
       = f.button :submit, "Log in"

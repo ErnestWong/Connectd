@@ -25,6 +25,8 @@ html
               li
                 =link_to "Profile", user_path(current_user)
               li
+                =link_to "Invite", invitations_path
+              li
                 =link_to "Log out", destroy_user_session_path, method: :delete
             -else
               li
@@ -43,3 +45,5 @@ html
   body
     = yield
     = render "layouts/flash"
+    -debug(params) if Rails.env.development?
+    -console if Rails.env.development?
