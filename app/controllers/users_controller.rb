@@ -19,11 +19,14 @@ class UsersController < ApplicationController
   end
 
   def search
-    searchResults = User.query(profile_params[:username])
+    searchResults = User.query(profile_params[:search_query])
     # when there is only one search result, show the user's profile directly
     if(searchResults.length == 1)
       @user = searchResults.first
       render 'show'
+    else
+      @search_query = profile_params[:search_query]
+      render 'no_results'
     end
   end
 
@@ -52,5 +55,8 @@ class UsersController < ApplicationController
 protected
   def invitation_params
     params.require(:user).permit(:username)
+  end
+  def profile_params
+    params.permit(:search_query)
   end
 end
