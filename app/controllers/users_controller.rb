@@ -24,6 +24,7 @@ protected
     searchResults = User.query(profile_params[:search_query])
     if(searchResults.length > 1)
       # render template with list of results
+      @search_query = profile_params[:search_query]
       @results = searchResults
       render 'show_search_results'
     elsif(searchResults.length == 1)
