@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def show
     @user ||= current_user
-    @user = User.find(params[:id]) if @user.nil?
+    @user = User.find_by_permalink(params[:id]) if @user.nil?
     render 'show'
   end
 

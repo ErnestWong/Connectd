@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
 
   devise :omniauthable, :omniauth_providers => [:facebook, :twitter, :gplus, :linkedin]
 
+  before_save :create_permalink
+
   attr_accessor :login
 
   def login=(login)
@@ -70,4 +72,13 @@ class User < ActiveRecord::Base
         query, query, query, query)
     end
   end
+
+  def to_param
+     permalink
+  end
+
+  private
+     def create_permalink
+          self.permalink = username.downcase
+     end
 end
