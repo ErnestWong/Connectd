@@ -1,8 +1,7 @@
 FactoryGirl.define do
   factory :user do
-    email "email@email.com"
+    sequence(:email) { |i| "user#{i}@example.com" }
+    sequence(:username) { |i| "username#{i}" }
     password "password"
-    username "username"
   end
-
 end
