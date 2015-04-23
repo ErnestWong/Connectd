@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Invitation, type: :model do
+  subject { create :invitation }
+
+  it 'should have a valid factory' do
+    expect(subject).to be_valid
+  end
+
   describe "#friend_exists" do
     subject { invitation }
     let(:user2) { create :user }

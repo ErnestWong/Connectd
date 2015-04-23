@@ -1,5 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { build_stubbed :user }
+
+  it 'should have a valid factory' do
+    expect(subject).to be_valid
+  end
+
+  describe "#login=" do
+  end
+  describe "#login" do
+  end
 end
