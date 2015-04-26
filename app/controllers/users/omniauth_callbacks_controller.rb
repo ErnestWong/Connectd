@@ -2,6 +2,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def login_or_signup_user
     @user = User.find_or_create_from_omniauth(auth)
 
+    binding.pry
     if @user && @user.persisted?
       sign_in_and_redirect @user
     else
