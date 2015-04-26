@@ -10,7 +10,7 @@ RSpec.describe InvitationsController, type: :controller do
 
     context "valid invitation" do
       let!(:friend_user) { create :user }
-      let(:friend_id) { friend_user.to_param }
+      let(:friend_id) { friend_user.id }
 
 
       it "should send invitation to user" do

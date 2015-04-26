@@ -6,7 +6,7 @@ class InvitationsController < ApplicationController
     @invitation = current_user.invitations.build(invitation_params)
     if @invitation.save
       flash[:notice] = "invitation sent"
-      @user = User.find_by_id!(params[:friend_id])
+      @user = User.find_by_id!(invitation_params[:friend_id])
       render 'users/show'
     else
       flash[:notice] = "invitation failed"
@@ -24,6 +24,6 @@ class InvitationsController < ApplicationController
 
 protected
   def invitation_params
-    params.permit(:friend_id)
+    params.require(:invitation).permit(:friend_id)
   end
 end
