@@ -90,4 +90,9 @@ RSpec.describe User, type: :model do
   it "should be valid" do
     expect(@user.valid?).to eq(true)
   end
+
+  it "generates a valid permalink as to_param" do
+    @user.save
+    expect(@user.permalink).to eq(@user.username)
+  end
 end
