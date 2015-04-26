@@ -1,5 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe SocialProfile, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { build_stubbed :social_profile }
+
+  it 'should have a valid factory' do
+    expect(subject).to be_valid
+  end
 end

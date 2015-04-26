@@ -3,7 +3,6 @@ class UsersController < ApplicationController
 
   def show
     @user ||= current_user
-    render 'show'
   end
 
   def invite
@@ -15,7 +14,9 @@ class UsersController < ApplicationController
   def profile
     @user = User.find_by_username!(params[:username])
   end
+
 protected
+
   def invitation_params
     params.require(:user).permit(:username)
   end
