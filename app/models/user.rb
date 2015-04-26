@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable,
     :validatable, :authentication_keys => [:login]
 
+  devise :omniauthable, :omniauth_providers => [:facebook, :twitter]
+
   validates :username,
     :presence => true,
   :uniqueness => {
