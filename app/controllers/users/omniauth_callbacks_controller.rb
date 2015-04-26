@@ -30,6 +30,17 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     handle_user
   end
 
+  def twitter
+    handle_user
+  end
+
+  def gplus
+    handle_user
+  end
+  def linkedin
+    handle_user
+  end
+
 private
 
   def auth
