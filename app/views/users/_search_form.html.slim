@@ -1,0 +1,4 @@
+=simple_form_for(@user, :url => user_search_path, :method => 'get', html: {class: 'connectd-form invitation-form full-page-form'}) do |f|
+  | Find a friend to connect with:
+  =text_field_tag :search_query, params[:search_query]
+  button Search

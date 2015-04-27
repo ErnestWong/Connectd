@@ -1,4 +1,12 @@
-h1.main-heading
-  ="#{@user.first_name} #{@user.last_name}"
-h2
-  ="Username: #{@user.username}"
+-if @user
+  h1.main-heading
+    ="#{@user.first_name} #{@user.last_name}"
+  h2
+    ="Username: #{@user.username}"
+
+/ show invitation button when the user is viewing another user's profile
+-if @user != current_user
+  div align="center"
+  =button_to "Get Connectd", {:controller => :invitations,
+    :action => 'create', :invitation => { :friend_id => @user.id }, :method => :create },
+    {class: 'button'}

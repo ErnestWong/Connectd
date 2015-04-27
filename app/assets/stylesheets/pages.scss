@@ -17,7 +17,7 @@ body{
 }
 
 .button{
-  width:100px;
+  width:200px;
   background:#3399cc;
   display:block;
   margin:0 auto;
@@ -93,4 +93,15 @@ body{
 
 .connectd-form input[type="submit"]:hover{
   background:#2288bb;
+}
+
+.no-results {
+  padding-top:100px;
+  font-size:150%;
+}
+
+.search-results-list {
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
 }

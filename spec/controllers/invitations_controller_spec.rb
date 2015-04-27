@@ -10,7 +10,8 @@ RSpec.describe InvitationsController, type: :controller do
 
     context "valid invitation" do
       let!(:friend_user) { create :user }
-      let(:friend_id) { friend_user.to_param }
+      let(:friend_id) { friend_user.id }
+
 
       it "should send invitation to user" do
         subject
@@ -21,9 +22,9 @@ RSpec.describe InvitationsController, type: :controller do
         expect { subject }.to change(Invitation, :count).by(1)
       end
 
-      it "should redirect to users path" do
+      it "should return 200 on valid invitation request" do
         subject
-        expect(response).to redirect_to user_path(user)
+        expect(response.status).to eq(200)
       end
     end
 

@@ -1,0 +1,21 @@
+h1.main-heading
+  ="Search results for: #{@search_query}"
+table.search-results-list
+  tr
+    th
+      ="First Name"
+    th
+      ="Last Name"
+    th
+      ="username"
+  tr
+
+  - if @results
+    - @results.each do |user|
+      tr
+        td
+          =user.first_name
+        td
+          =user.last_name
+        td
+          a href=user_path(user) =user.username

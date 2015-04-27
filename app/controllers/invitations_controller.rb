@@ -2,10 +2,17 @@ class InvitationsController < ApplicationController
   before_action :authenticate_user!
 
   def create
+    @invitation = Invitation.new
     @invitation = current_user.invitations.build(invitation_params)
-    if @invitation.save
+    existingInvitations = Invitation.where(user_id: current_user.id, friend_id: invitation_params[:friend_id])
+    if existingInvitations.length >= 1
+      flash[:notice] = "invitation already sent"
+      @user = User.find_by_id!(invitation_params[:friend_id])
+      render "users/show"
+    elsif @invitation.save
       flash[:notice] = "invitation sent"
-      redirect_to user_path(current_user)
+      @user = User.find_by_id!(invitation_params[:friend_id])
+      render 'users/show'
     else
       flash[:notice] = "invitation failed"
       @user = current_user
@@ -18,11 +25,6 @@ class InvitationsController < ApplicationController
     @invitation.destroy
     flash[:notice] = "Cancelled invitation"
     redirect_to current_user
-  end
-
-  def index
-    @invitation = Invitation.new
-    render 'new'
   end
 
 protected
