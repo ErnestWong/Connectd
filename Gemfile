@@ -30,6 +30,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'letter_opener'
   gem 'quiet_assets'
+  gem 'web-console', '2.1.0'
 end
 
 group :development, :test do

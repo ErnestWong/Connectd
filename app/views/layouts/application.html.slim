@@ -45,4 +45,5 @@ html
   body
     = yield
     = render "layouts/flash"
-    -debug(params) if Rails.env.development?
+    - debug(params) if Rails.env.development?
+    //- console if Rails.env.development?
