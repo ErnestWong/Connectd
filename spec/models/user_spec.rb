@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  before do
-    @user = build(:user)
-  end
-
   subject { build_stubbed :user }
 
   it 'should have a valid factory' do
@@ -85,14 +81,5 @@ RSpec.describe User, type: :model do
     it "should create new auth" do
       expect { result }.to change(Authorization, :count).by(1)
     end
-  end
-
-  it "should be valid" do
-    expect(@user.valid?).to eq(true)
-  end
-
-  it "generates a valid permalink as to_param" do
-    @user.save
-    expect(@user.permalink).to eq(@user.username)
   end
 end

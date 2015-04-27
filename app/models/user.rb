@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
 
   devise :omniauthable, :omniauth_providers => [:facebook, :twitter, :gplus, :linkedin]
 
-  before_save :create_permalink
   attr_accessor :login
 
   def login=(login)
@@ -72,12 +71,25 @@ class User < ActiveRecord::Base
     end
   end
 
-  def to_param
-     permalink
+  def find_invitation(friend_id)
+    self.invitations.find_by_friend_id(friend_id)
   end
 
 private
-  def create_permalink
-   self.permalink = username.downcase
+
+  def self.search_username(user_name)
+    if user_name
+      user_name.downcase!
+      where('LOWER(username) LIKE ?', "%#{user_name}%")
+    end
+  end
+
+  def self.query(query)
+    if query
+      query.downcase!
+      where('LOWER(username)=? OR LOWER(email)=?
+        OR LOWER(first_name)=? OR LOWER(last_name)=?',
+        query, query, query, query)
+    end
   end
 end
