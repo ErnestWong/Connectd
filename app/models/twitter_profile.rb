@@ -1,2 +1,0 @@
-class TwitterProfile < SocialProfile
-end

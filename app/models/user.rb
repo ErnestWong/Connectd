@@ -2,17 +2,15 @@ class User < ActiveRecord::Base
   has_many :invitations
   has_many :friends, through: :invitations
   has_many :social_profiles
+  has_many :authorizations
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable,
     :validatable, :authentication_keys => [:login]
 
-  validates :username,
-    :presence => true,
-  :uniqueness => {
-    :case_sensitive => false
-  }
+  devise :omniauthable, :omniauth_providers => [:facebook, :twitter, :gplus, :linkedin]
 
   attr_accessor :login
 
@@ -34,6 +32,26 @@ class User < ActiveRecord::Base
       else
         where(username: conditions[:username]).first
       end
+    end
+  end
+
+  def self.find_or_create_from_omniauth(auth)
+    find_from_omniauth(auth) || create_from_omniauth(auth)
+  end
+
+  def self.find_from_omniauth(auth)
+    Authorization.where(uid: auth.uid).first.try(:user) || User.where(email: auth.info.email).first
+  end
+
+  def self.create_from_omniauth(auth)
+    authorization = Authorization.build_from_omniauth(auth)
+
+    User.create do |user|
+      user.first_name = auth.info.first_name
+      user.last_name = auth.info.last_name
+      user.email = auth.info.email
+      user.authorizations = [authorization]
+      user.password = Devise.friendly_token[0, 20]
     end
   end
 end

@@ -1,2 +1,0 @@
-class InstagramProfile < SocialProfile
-end

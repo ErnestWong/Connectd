@@ -1,2 +1,0 @@
-class FacebookProfile < SocialProfile
-end
