@@ -63,6 +63,6 @@ protected
     params.require(:user).permit(:username)
   end
   def profile_params
-    params.require(:user).permit(:search_query)
+    params.permit(:search_query)
   end
 end

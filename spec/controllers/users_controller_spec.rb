@@ -41,14 +41,14 @@ RSpec.describe UsersController, type: :controller do
         # create second user with same first name
         user2 = create :user
         params = { search_query: user.first_name }
-        post :search, user: params
+        post :search, params
         expect(response).to render_template(:show_search_results)
       end
       it "should search by last name successfully" do
         # create second user with same last name
         user2 = create :user
         params = { search_query: user.last_name }
-        post :search, user: params
+        post :search, params
         expect(response).to render_template(:show_search_results)
       end
     end
@@ -56,22 +56,22 @@ RSpec.describe UsersController, type: :controller do
     context "query with one result" do
       it "should search by username successfully" do
         params = { search_query: user.username }
-        post :search, user: params
+        post :search, params
         expect(response).to render_template(:show)
       end
       it "should search by first name successfully" do
         params = { search_query: user.first_name }
-        post :search, user: params
+        post :search, params
         expect(response).to render_template(:show)
       end
       it "should search by last name successfully" do
         params = { search_query: user.last_name }
-        post :search, user: params
+        post :search, params
         expect(response).to render_template(:show)
       end
       it "should search by email successfully" do
         params = { search_query: user.email }
-        post :search, user: params
+        post :search, params
         expect(response).to render_template(:show)
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe UsersController, type: :controller do
     context "query with no results" do
       it "should render no results page" do
         params = { search_query: "not existent" }
-        post :search, user: params
+        post :search, params
         expect(response).to render_template(:no_results)
       end
     end
