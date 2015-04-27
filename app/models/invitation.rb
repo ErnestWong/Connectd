@@ -13,6 +13,5 @@ class Invitation < ActiveRecord::Base
   end
 
   def invitation_exists?
-    if self.user.invitation(self.friend_id)
   end
 end

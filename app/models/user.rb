@@ -71,8 +71,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def find_invitation(friend_id)
-    self.invitations.find_by_friend_id(friend_id)
+  def find_invitation(friend)
+    self.invitations.find_by_friend_id(friend.id)
   end
 
 private

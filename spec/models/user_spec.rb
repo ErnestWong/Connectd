@@ -82,4 +82,26 @@ RSpec.describe User, type: :model do
       expect { result }.to change(Authorization, :count).by(1)
     end
   end
+
+  describe "#find_invitation(id)" do
+    subject { user }
+    let(:user) { create :user }
+    let(:friend) { create :user }
+    let(:result) {  subject.find_invitation(friend) }
+
+    context "invited friend" do
+      let!(:invitation) { create :invitation, user: user, friend: friend }
+
+      it "should return the invitation of that friend" do
+        expect(result).to eq invitation
+      end
+    end
+
+    context "didnt invite friend" do
+
+      it "should return nil" do
+        expect(result).to eq nil
+      end
+    end
+  end
 end
