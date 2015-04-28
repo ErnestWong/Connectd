@@ -28,7 +28,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def add_oauth_to_user(provider)
     unless current_user.social_profile_linked?(provider)
-      current_user.authorizations << Authorization.build_from_omniauth(auth)
+      current_user.authorizations << Authorization.build_from_omniauth(auth) unless Authorization.auth_exists?(auth)
       alert = "Successfully added #{provider} to account"
     else
       alert = "Already added #{provider} to account"
