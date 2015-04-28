@@ -28,12 +28,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def add_oauth_to_user(provider)
     unless current_user.social_profile_linked?(provider)
-      binding.pry
       current_user.authorizations << Authorization.build_from_omniauth(auth)
-      redirect_to user_path(current_user), alert: "Added #{provider} to account"
+      alert = "Successfully added #{provider} to account"
     else
-      redirect_to user_path(current_user), alert: "Already added #{provider} to account"
+      alert = "Already added #{provider} to account"
     end
+
+    redirect_to user_path(current_user), alert: alert
   end
 
 private
