@@ -13,10 +13,10 @@ class Invitation < ActiveRecord::Base
   end
 
   def invitation_exists?
-    errors.add(:friend_id, "already invited user") if self.user.find_invitation(self.friend)
+    errors.add(:friend_id, "already invited user") if user.find_invitation(self.friend)
   end
 
   def invite_self?
-    errors.add(:friend_id, "cant invite yourself") if self.user.id == friend.id
+    errors.add(:friend_id, "cant invite yourself") if self.user.id == friend_id
   end
 end

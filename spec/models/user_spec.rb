@@ -83,7 +83,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "#find_invitation(id)" do
+  describe "#find_invitation(friend)" do
     subject { user }
     let(:user) { create :user }
     let(:friend) { create :user }

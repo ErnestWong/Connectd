@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Invitation, type: :model do
-  subject { create :invitation }
+  subject { build :invitation }
 
   it 'should have a valid factory' do
     expect(subject).to be_valid
   end
 
-  describe "#friend_exists" do
+  describe "#friend_exists?" do
     subject { invitation }
     let(:user2) { create :user }
 
@@ -29,7 +29,7 @@ RSpec.describe Invitation, type: :model do
   end
 
   describe "#invitation_exists?" do
-    subject { create :invitation, user: user, friend: friend }
+    subject { build :invitation, user: user, friend: friend }
     let(:user) { create :user }
     let(:friend) { create :user }
 
@@ -45,14 +45,13 @@ RSpec.describe Invitation, type: :model do
     context "user hasnt invited friend" do
 
       it "should be valid" do
-        binding.pry
         expect(subject).to be_valid
       end
     end
   end
 
   describe "#invite_self?" do
-    subject { create :invitation, user: user, friend: user }
+    subject { build :invitation, user: user, friend: user }
     let(:user) { create :user }
 
     context "user inviting self" do

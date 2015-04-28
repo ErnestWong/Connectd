@@ -1,1 +1,5 @@
-=render partial: "invitations/form"
+
+= simple_form_for(@invitation) do |f|
+  = f.input :friend_id
+
+  = f.button :submit

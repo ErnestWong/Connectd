@@ -24,12 +24,12 @@ RSpec.describe InvitationsController, type: :controller do
 
       it "should return 200 on valid invitation request" do
         subject
-        expect(response.status).to eq(200)
+        expect(response).to redirect_to user_path(user)
       end
     end
 
     context "invalid invitation" do
-      let(:friend_id) { nil }
+      let(:friend_id) { "" }
 
       it "should not send invitation to user" do
         subject
@@ -40,9 +40,9 @@ RSpec.describe InvitationsController, type: :controller do
         expect { subject }.to_not change(Invitation, :count)
       end
 
-      it "should render users show page" do
+      it "should render invitations new page" do
         subject
-        expect(response).to render_template(:show)
+        expect(response).to render_template(:new)
       end
     end
   end

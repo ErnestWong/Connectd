@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
   end
 
   def find_invitation(friend)
-    self.invitations.find_by_friend_id(friend.id)
+    self.invitations.find_by_friend_id(friend.id) unless friend.nil?
   end
 
 private
