@@ -45,27 +45,46 @@ describe Users::OmniauthCallbacksController do
       end
     end
 
-    context "with logged in user without auth" do
+    context "with logged in user" do
       let!(:user) { create :user }
 
       before { sign_in user }
 
-      it "should not create new user" do
-        expect { subject }.to_not change(User, :count)
+      context "without auth" do
+        it "should not create new user" do
+          expect { subject }.to_not change(User, :count)
+        end
+
+        it "should add to authorizations" do
+          expect { subject }.to change(Authorization, :count).by(1)
+        end
+
+        it "should add to current user's authorizations" do
+          subject
+          expect(user.authorizations.count).to eq 1
+        end
+
+        it "should redirect to users path" do
+          subject
+          expect(response).to redirect_to user_path(user)
+        end
       end
 
-      it "should add to authorizations" do
-        expect { subject }.to change(Authorization, :count).by(1)
-      end
+      context "with auth with same provider" do
+        let!(:authorization) { create :authorization, user: user, uid: omniauth.uid, provider: omniauth.provider }
 
-      it "should add to current user's authorizations" do
-        subject
-        expect(user.authorizations.count).to eq 1
-      end
+        it "should not create new user" do
+          expect { subject }.to_not change(User, :count)
+        end
 
-      it "should redirect to root url" do
-        subject
-        expect(response).to redirect_to root_url
+        it "should not add to authorizations" do
+          expect { subject }.to_not change(Authorization, :count)
+        end
+
+        it "should redirect to users path" do
+          subject
+          expect(response).to redirect_to user_path(user)
+        end
       end
     end
   end

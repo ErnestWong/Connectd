@@ -1,5 +1,10 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  def login_or_signup_user
+
+  User.omniauth_providers.each do |provider|
+    define_method(provider) { handle_user(provider.to_s) }
+  end
+
+  def login_or_signup_user(provider)
     @user = User.find_or_create_from_omniauth(auth)
 
     if @user && @user.persisted?
@@ -13,32 +18,22 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     redirect_to new_user_registration_url, alert: 'Authentication failed, please try again.'
   end
 
-  def handle_user
+  def handle_user(provider)
     if current_user
-      add_oauth_to_user
+      add_oauth_to_user(provider)
     else
-      login_or_signup_user
+      login_or_signup_user(provider)
     end
   end
 
-  def add_oauth_to_user
-    current_user.authorizations << Authorization.build_from_omniauth(auth) unless current_user.authorizations.present?
-    redirect_to root_url, alert: 'Added facebook to account'
-  end
-
-  def facebook
-    handle_user
-  end
-
-  def twitter
-    handle_user
-  end
-
-  def gplus
-    handle_user
-  end
-  def linkedin
-    handle_user
+  def add_oauth_to_user(provider)
+    unless current_user.social_profile_linked?(provider)
+      binding.pry
+      current_user.authorizations << Authorization.build_from_omniauth(auth)
+      redirect_to user_path(current_user), alert: "Added #{provider} to account"
+    else
+      redirect_to user_path(current_user), alert: "Already added #{provider} to account"
+    end
   end
 
 private

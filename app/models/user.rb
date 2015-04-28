@@ -76,11 +76,11 @@ class User < ActiveRecord::Base
   end
 
   def social_profiles
-    self.authorizations.pluck(:provider)
+    self.authorizations.pluck(:provider).map(&:downcase)
   end
 
   def social_profile_linked?(provider)
-    social_profiles.include? provider
+    social_profiles.include? provider.downcase
   end
 
 private
