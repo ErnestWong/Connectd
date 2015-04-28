@@ -79,6 +79,10 @@ class User < ActiveRecord::Base
     self.authorizations.pluck(:provider)
   end
 
+  def social_profile_linked?(provider)
+    social_profiles.include? provider
+  end
+
 private
 
   def self.search_username(user_name)

@@ -124,4 +124,28 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe "#social_profile_linked?(provider)" do
+    subject { user }
+    let(:result) { subject.social_profile_linked?(provider) }
+    let(:user) { create :user }
+
+    context "social profile is linked" do
+      let!(:authorization) { create :authorization, user: user, provider: provider } 
+      let(:provider) { "facebook" }
+
+      it "should return true" do
+        expect(result).to eq true
+      end
+    end
+
+    context "social profile isnt linked" do
+      let!(:authorization) { create :authorization, user: user, provider: "facebook" } 
+      let(:provider) { "linkedin" }
+
+      it "should return false" do
+        expect(result).to eq false
+      end
+    end
+  end
 end
