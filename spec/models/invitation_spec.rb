@@ -39,11 +39,9 @@ RSpec.describe Invitation, type: :model do
       it "should not be valid" do
         expect(subject).to_not be_valid
       end
-
     end
 
     context "user hasnt invited friend" do
-
       it "should be valid" do
         expect(subject).to be_valid
       end

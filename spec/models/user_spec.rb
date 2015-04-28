@@ -98,9 +98,29 @@ RSpec.describe User, type: :model do
     end
 
     context "didnt invite friend" do
-
       it "should return nil" do
         expect(result).to eq nil
+      end
+    end
+  end
+
+  describe "#social_profiles" do
+    subject { user }
+    let(:result) { subject.social_profiles }
+    let(:user) { create :user }
+
+    context "with linked social profiles" do
+      let(:provider) { "facebook" }
+      let!(:authorization) { create :authorization, user: user, provider: provider } 
+
+      it "should return the providers" do
+        expect(result).to eq [provider] 
+      end
+    end
+
+    context "without linked social profiles" do
+      it "should return empty" do
+        expect(result).to eq []
       end
     end
   end

@@ -75,6 +75,10 @@ class User < ActiveRecord::Base
     self.invitations.find_by_friend_id(friend.id) unless friend.nil?
   end
 
+  def social_profiles
+    self.authorizations.pluck(:provider)
+  end
+
 private
 
   def self.search_username(user_name)
