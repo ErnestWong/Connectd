@@ -27,4 +27,38 @@ RSpec.describe Invitation, type: :model do
       end
     end
   end
+
+  describe "#invitation_exists?" do
+    subject { create :invitation, user: user, friend: friend }
+    let(:user) { create :user }
+    let(:friend) { create :user }
+
+    context "user already invited friend" do
+      let!(:existing_invitation) { create :invitation, user: user, friend: friend }
+
+      it "should not be valid" do
+        expect(subject).to_not be_valid
+      end
+
+    end
+
+    context "user hasnt invited friend" do
+
+      it "should be valid" do
+        binding.pry
+        expect(subject).to be_valid
+      end
+    end
+  end
+
+  describe "#invite_self?" do
+    subject { create :invitation, user: user, friend: user }
+    let(:user) { create :user }
+
+    context "user inviting self" do
+      it "should not be valid" do
+        expect(subject).to_not be_valid
+      end
+    end
+  end
 end
