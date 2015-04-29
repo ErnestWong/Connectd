@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
 
   devise :omniauthable, :omniauth_providers => [:facebook, :twitter, :gplus, :linkedin]
 
-  before_save :create_permalink
   attr_accessor :login
 
   def login=(login)
@@ -72,12 +71,15 @@ class User < ActiveRecord::Base
     end
   end
 
-  def to_param
-     permalink
+  def find_invitation(friend)
+    self.invitations.find_by_friend_id(friend.id) unless friend.nil?
   end
 
-private
-  def create_permalink
-   self.permalink = username.downcase
+  def social_profiles
+    self.authorizations.pluck(:provider).map(&:downcase)
+  end
+
+  def social_profile_linked?(provider)
+    social_profiles.include? provider.downcase
   end
 end

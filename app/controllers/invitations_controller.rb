@@ -1,23 +1,23 @@
 class InvitationsController < ApplicationController
   before_action :authenticate_user!
 
+  def new
+    @invitation = Invitation.new
+  end
+
   def create
     @invitation = Invitation.new
     @invitation = current_user.invitations.build(invitation_params)
-    existingInvitations = Invitation.where(user_id: current_user.id, friend_id: invitation_params[:friend_id])
-    if existingInvitations.length >= 1
-      flash[:notice] = "invitation already sent"
-      @user = User.find_by_id!(invitation_params[:friend_id])
-      render "users/show"
-    elsif @invitation.save
+
+    if @invitation.save
       flash[:notice] = "invitation sent"
-      @user = User.find_by_id!(invitation_params[:friend_id])
-      render 'users/show'
+      redirect_to user_path(current_user) 
     else
       flash[:notice] = "invitation failed"
       @user = current_user
-      render "users/show"
+      render "new"
     end
+
   end
 
   def destroy

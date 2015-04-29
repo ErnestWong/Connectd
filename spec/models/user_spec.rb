@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  before do
-    @user = build(:user)
-  end
-
   subject { build_stubbed :user }
 
   it 'should have a valid factory' do
@@ -87,12 +83,69 @@ RSpec.describe User, type: :model do
     end
   end
 
-  it "should be valid" do
-    expect(@user.valid?).to eq(true)
+  describe "#find_invitation(friend)" do
+    subject { user }
+    let(:user) { create :user }
+    let(:friend) { create :user }
+    let(:result) {  subject.find_invitation(friend) }
+
+    context "invited friend" do
+      let!(:invitation) { create :invitation, user: user, friend: friend }
+
+      it "should return the invitation of that friend" do
+        expect(result).to eq invitation
+      end
+    end
+
+    context "didnt invite friend" do
+      it "should return nil" do
+        expect(result).to eq nil
+      end
+    end
   end
 
-  it "generates a valid permalink as to_param" do
-    @user.save
-    expect(@user.permalink).to eq(@user.username)
+  describe "#social_profiles" do
+    subject { user }
+    let(:result) { subject.social_profiles }
+    let(:user) { create :user }
+
+    context "with linked social profiles" do
+      let(:provider) { "facebook" }
+      let!(:authorization) { create :authorization, user: user, provider: provider } 
+
+      it "should return the providers" do
+        expect(result).to eq [provider] 
+      end
+    end
+
+    context "without linked social profiles" do
+      it "should return empty" do
+        expect(result).to eq []
+      end
+    end
+  end
+
+  describe "#social_profile_linked?(provider)" do
+    subject { user }
+    let(:result) { subject.social_profile_linked?(provider) }
+    let(:user) { create :user }
+
+    context "social profile is linked" do
+      let!(:authorization) { create :authorization, user: user, provider: provider } 
+      let(:provider) { "facebook" }
+
+      it "should return true" do
+        expect(result).to eq true
+      end
+    end
+
+    context "social profile isnt linked" do
+      let!(:authorization) { create :authorization, user: user, provider: "facebook" } 
+      let(:provider) { "linkedin" }
+
+      it "should return false" do
+        expect(result).to eq false
+      end
+    end
   end
 end

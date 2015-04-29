@@ -1,0 +1,4 @@
+- resource_class.omniauth_providers.each do |provider|
+  - unless current_user.social_profile_linked?(provider.to_s)
+    = link_to "Connect with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider)
+    br
