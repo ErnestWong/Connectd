@@ -22,7 +22,7 @@ RSpec.describe InvitationsController, type: :controller do
         expect { subject }.to change(Invitation, :count).by(1)
       end
 
-      it "should return 200 on valid invitation request" do
+      it "should redirect to user path" do
         subject
         expect(response).to redirect_to user_path(user)
       end
