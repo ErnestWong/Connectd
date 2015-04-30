@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430005812) do
+ActiveRecord::Schema.define(version: 20150430053611) do
 
   create_table "authorizations", force: :cascade do |t|
     t.string  "uid"
@@ -23,6 +23,11 @@ ActiveRecord::Schema.define(version: 20150430005812) do
   end
 
   add_index "authorizations", ["invitation_id"], name: "index_authorizations_on_invitation_id"
+
+  create_table "authorizations_invitations", id: false, force: :cascade do |t|
+    t.integer "authorization_id"
+    t.integer "invitation_id"
+  end
 
   create_table "invitations", force: :cascade do |t|
     t.integer  "user_id",    null: false

@@ -8,3 +8,8 @@
   = button_to "Get Connectd", {:controller => :invitations,
     :action => 'create', :invitation => { :friend_id => @user.id }, :method => :create },
     {class: 'button'}
+
+p= link_to "send invitation", new_invitation_path
+p= link_to "invitations", invitations_path
+
+

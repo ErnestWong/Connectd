@@ -1,6 +1,6 @@
 class Authorization < ActiveRecord::Base
   belongs_to :user
-  belongs_to :invitation
+  has_and_belongs_to_many :invitations
 
   serialize :data
 

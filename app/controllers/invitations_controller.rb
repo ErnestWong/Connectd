@@ -1,6 +1,10 @@
 class InvitationsController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @invitations = current_user.invitations
+  end
+
   def new
     @invitation = Invitation.new
   end
@@ -39,7 +43,6 @@ protected
   def get_socials
     list = social_params[:socials] || []
     list.reject{ |s| s.empty? }
-    binding.pry
     current_user.social_profile_auths(list)
   end
 end

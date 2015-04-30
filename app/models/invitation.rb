@@ -1,7 +1,7 @@
 class Invitation < ActiveRecord::Base
   belongs_to :user
   belongs_to :friend, class_name: 'User'
-  has_many :authorizations
+  has_and_belongs_to_many :authorizations
 
   validates :user_id, :friend_id, presence: true
   validate :friend_exists?, :invitation_exists?, :invite_self?
