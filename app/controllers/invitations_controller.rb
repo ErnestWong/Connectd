@@ -37,7 +37,8 @@ protected
   end
 
   def get_socials
-    list = social_params[:socials].reject{ |s| s.empty? }
+    list = social_params[:socials] || []
+    list.reject{ |s| s.empty? }
     current_user.social_profile_auths(list)
   end
 end
