@@ -5,7 +5,13 @@ class Invitation < ActiveRecord::Base
 
   validates :user_id, :friend_id, presence: true
   validate :friend_exists?, :invitation_exists?, :invite_self?
-  
+
+  def social_profiles
+    authorizations.pluck(:provider).map(&:downcase)
+  end
+
+protected
+
   def friend_exists? 
     if User.where(id: friend_id).blank?
       errors.add(:friend_id, "invalid id")

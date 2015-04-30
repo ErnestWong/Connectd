@@ -85,7 +85,7 @@ class User < ActiveRecord::Base
   end
 
   def social_profiles
-    self.authorizations.pluck(:provider).map(&:downcase)
+    authorizations.pluck(:provider).map(&:downcase)
   end
 
   def social_profile_auths(providers_list=[])

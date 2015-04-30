@@ -39,6 +39,7 @@ protected
   def get_socials
     list = social_params[:socials] || []
     list.reject{ |s| s.empty? }
+    binding.pry
     current_user.social_profile_auths(list)
   end
 end
