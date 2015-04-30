@@ -1,3 +1,4 @@
+h1 Invitations Sent
 table
   thead
     tr
@@ -12,3 +13,21 @@ table
         td= User.find_name_by_id(invitation.friend_id)
         td= invitation.social_profiles.join(', ') 
         td= invitation.created_at.strftime("%Y-%m-%d %I:%M%p")
+
+h1 Invitations Received
+table
+  thead
+    tr
+      th ID
+      th Friend
+      th Social Profiles
+      th Created
+  tbody
+    - @received_invitations.each do |invitation|
+      tr
+        td ##{invitation.id}
+        td= User.find_name_by_id(invitation.friend_id)
+        td= invitation.social_profiles.join(', ') 
+        td= invitation.created_at.strftime("%Y-%m-%d %I:%M%p")
+
+
