@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
   has_many :invitations
   has_many :friends, through: :invitations
-  has_many :social_profiles
   has_many :authorizations
 
   # Include default devise modules. Others available are:
@@ -85,7 +84,11 @@ class User < ActiveRecord::Base
     self.authorizations.pluck(:provider).map(&:downcase)
   end
 
-  def social_profile_linked?(provider)
+  def social_profile_auths(providers_list=[])
+    authorizations.where("PROVIDER IN (?) ", providers_list)
+  end
+
+  def social_profile_linked?(provider=nil)
     social_profiles.include? provider.downcase
   end
 end

@@ -1,4 +1,6 @@
 = simple_form_for(@invitation) do |f|
   = f.input :friend_id
 
+  = f.input :socials, collection: User.omniauth_providers, as: :check_boxes, input_html: { checked: true }
+
   = f.button :submit

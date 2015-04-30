@@ -27,6 +27,8 @@ html
               li
                 =link_to "Find Friends", user_search_index_path
               li
+                =link_to "Send Invitation", new_invitation_path
+              li
                 =link_to "Log out", destroy_user_session_path, method: :delete
             -else
               li
