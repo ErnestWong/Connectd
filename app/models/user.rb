@@ -95,4 +95,9 @@ class User < ActiveRecord::Base
   def social_profile_linked?(provider=nil)
     social_profiles.include? provider.downcase
   end
+
+  def self.find_name_by_id(id)
+    user = User.find_by_id(id)
+    user.full_name unless user.nil?
+  end
 end

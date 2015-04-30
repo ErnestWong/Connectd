@@ -23,6 +23,26 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe ".find_name_by_id(id)" do
+    let(:result) { subject.class.find_name_by_id(user.id) }
+
+    context "user found" do
+      let(:user) { create :user, first_name: "first", last_name: "last" }
+
+      it "should return the user's full name" do
+        expect(result).to eq "first last"
+      end
+    end
+
+    context "no user found" do
+      let(:user) { build_stubbed :user }
+
+      it "should return nil" do
+        expect(result).to eq nil
+      end
+    end
+  end
+
   describe ".find_or_create_from_omniauth" do
     let(:result) { subject.class.find_or_create_from_omniauth(auth) }
     let(:auth) { build :omniauth }
