@@ -45,11 +45,17 @@ class User < ActiveRecord::Base
 
   def self.create_from_omniauth(auth)
     authorization = Authorization.build_from_omniauth(auth)
+    info = auth.info
 
     User.create do |user|
-      user.first_name = auth.info.first_name
-      user.last_name = auth.info.last_name
-      user.email = auth.info.email
+      if authorization.is_twitter?
+        user.first_name, user.last_name = info.name.split(" ")
+        user.email = "#{info.name}_#{auth.uid}@dummytwitter.com".gsub(/\s+/, "")
+      else
+        user.first_name = info.first_name
+        user.last_name = info.last_name
+        user.email = info.email
+      end
       user.authorizations = [authorization]
       user.password = Devise.friendly_token[0, 20]
     end

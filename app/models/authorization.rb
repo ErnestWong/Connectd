@@ -10,4 +10,8 @@ class Authorization < ActiveRecord::Base
   def self.auth_exists?(auth)
     Authorization.find_by_uid(auth.uid)
   end
+
+  def is_twitter?
+    provider.downcase == "twitter"
+  end
 end
