@@ -3,6 +3,7 @@ class InvitationsController < ApplicationController
 
   def index
     @invitations = current_user.invitations
+    @received_invitations = current_user.invitations_received
   end
 
   def new

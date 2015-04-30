@@ -23,7 +23,7 @@ table
       th Social Profiles
       th Created
   tbody
-    - @invitations.each do |invitation|
+    - @received_invitations.each do |invitation|
       tr
         td ##{invitation.id}
         td= User.find_name_by_id(invitation.friend_id)

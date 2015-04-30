@@ -12,6 +12,17 @@ RSpec.describe User, type: :model do
   describe "#login" do
   end
 
+  describe "#invitations_received" do
+    subject { user }
+    let(:user) { create :user }
+    let!(:invitation) { create :invitation, friend: user }
+    let(:result) { subject.invitations_received }
+
+    it "should return list of user's invitations received" do
+      expect(result).to eq [invitation]
+    end
+  end
+
   describe "#full_name" do
     before do
       subject.first_name = "first"
