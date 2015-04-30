@@ -12,6 +12,17 @@ RSpec.describe User, type: :model do
   describe "#login" do
   end
 
+  describe "#full_name" do
+    before do
+      subject.first_name = "first"
+      subject.last_name = "last"
+    end
+
+    it "should return full name" do
+      expect(subject.full_name).to eq "first last"
+    end
+  end
+
   describe ".find_or_create_from_omniauth" do
     let(:result) { subject.class.find_or_create_from_omniauth(auth) }
     let(:auth) { build :omniauth }
@@ -149,9 +160,9 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "#social_profiles_auth(providers_list)" do
+  describe "#social_profile_auth(providers_list)" do
     subject { user }
-    let(:result) { subject.social_profiles_auths(providers_list) }
+    let(:result) { subject.social_profile_auths(providers_list) }
     let!(:authorization) { create :authorization, user: user, provider: "facebook" }
     let(:user) { create :user }
 

@@ -80,6 +80,10 @@ class User < ActiveRecord::Base
     self.invitations.find_by_friend_id(friend.id) unless friend.nil?
   end
 
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
   def social_profiles
     self.authorizations.pluck(:provider).map(&:downcase)
   end
