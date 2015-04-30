@@ -4,7 +4,7 @@ class Authorization < ActiveRecord::Base
   serialize :data
 
   def self.build_from_omniauth(auth)
-    new(uid: auth.uid, provider: auth.provider)
+    new(uid: auth.uid, provider: auth.provider, data: auth)
   end
 
   def self.auth_exists?(auth)
