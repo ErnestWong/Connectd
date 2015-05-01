@@ -18,6 +18,10 @@ class UsersController < ApplicationController
     render 'search'
   end
 
+  def autocomplete
+    raise
+  end
+
   def search
     searchResults = User.query(profile_params[:search_query])
     if(searchResults.length > 1)

@@ -10,6 +10,7 @@ gem 'font-awesome-rails'
 gem 'foundation-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'modernizr-rails'
 
 gem 'omniauth-facebook'
@@ -24,6 +25,7 @@ gem 'simple_form'
 gem 'sqlite3'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
+
 
 group :development do
   gem 'better_errors'
