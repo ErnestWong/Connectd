@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
   has_many :invitations
   has_many :friends, through: :invitations
-  has_many :social_profiles
   has_many :authorizations
 
   # Include default devise modules. Others available are:
@@ -19,7 +18,27 @@ class User < ActiveRecord::Base
   end
 
   def login
-    @login || self.username || self.email
+    @login || username || email
+  end
+
+  def full_name
+    "#{first_name} #{last_name}".strip
+  end
+
+  def social_profiles
+    authorizations.pluck(:provider).map(&:downcase)
+  end
+
+  def social_profile_auths(providers_list=[])
+    authorizations.where("PROVIDER IN (?) ", providers_list)
+  end
+
+  def social_profile_linked?(provider=nil)
+    social_profiles.include? provider.downcase
+  end
+
+  def invitations_received
+    Invitation.where(friend_id: id)
   end
 
   def self.find_first_by_auth_conditions(warden_conditions)
@@ -78,14 +97,11 @@ class User < ActiveRecord::Base
   end
 
   def find_invitation(friend)
-    self.invitations.find_by_friend_id(friend.id) unless friend.nil?
+    invitations.find_by_friend_id(friend.id) unless friend.nil?
   end
 
-  def social_profiles
-    self.authorizations.pluck(:provider).map(&:downcase)
-  end
-
-  def social_profile_linked?(provider)
-    social_profiles.include? provider.downcase
+  def self.find_name_by_id(id)
+    user = User.find_by_id(id)
+    user.full_name unless user.nil?
   end
 end

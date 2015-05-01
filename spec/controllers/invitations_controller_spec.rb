@@ -5,13 +5,13 @@ RSpec.describe InvitationsController, type: :controller do
 
   describe "POST create" do
     subject { post :create, invitation: params }
-    let(:params) { { friend_id: friend_id } }
+    let(:params) { { friend_id: friend_id, socials: ["facebook"] } }
     before { sign_in user }
 
     context "valid invitation" do
       let!(:friend_user) { create :user }
       let(:friend_id) { friend_user.id }
-
+      let!(:authorization) { create :authorization, user: user, provider: "facebook" }
 
       it "should send invitation to user" do
         subject
@@ -20,6 +20,11 @@ RSpec.describe InvitationsController, type: :controller do
 
       it "should create new invitation" do
         expect { subject }.to change(Invitation, :count).by(1)
+      end
+
+      it "should assign the authorization to invitation" do
+        subject
+        expect(assigns(:invitation).authorizations).to eq [authorization]
       end
 
       it "should redirect to user path" do

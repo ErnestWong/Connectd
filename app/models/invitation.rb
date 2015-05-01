@@ -1,11 +1,17 @@
 class Invitation < ActiveRecord::Base
   belongs_to :user
   belongs_to :friend, class_name: 'User'
-  has_many :social_profiles
+  has_and_belongs_to_many :authorizations
 
   validates :user_id, :friend_id, presence: true
   validate :friend_exists?, :invitation_exists?, :invite_self?
-  
+
+  def social_profiles
+    authorizations.pluck(:provider).map(&:downcase)
+  end
+
+protected
+
   def friend_exists? 
     if User.where(id: friend_id).blank?
       errors.add(:friend_id, "invalid id")

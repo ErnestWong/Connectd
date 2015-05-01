@@ -12,6 +12,48 @@ RSpec.describe User, type: :model do
   describe "#login" do
   end
 
+  describe "#invitations_received" do
+    subject { user }
+    let(:user) { create :user }
+    let!(:invitation) { create :invitation, friend: user }
+    let(:result) { subject.invitations_received }
+
+    it "should return list of user's invitations received" do
+      expect(result).to eq [invitation]
+    end
+  end
+
+  describe "#full_name" do
+    before do
+      subject.first_name = "first"
+      subject.last_name = "last"
+    end
+
+    it "should return full name" do
+      expect(subject.full_name).to eq "first last"
+    end
+  end
+
+  describe ".find_name_by_id(id)" do
+    let(:result) { subject.class.find_name_by_id(user.id) }
+
+    context "user found" do
+      let(:user) { create :user, first_name: "first", last_name: "last" }
+
+      it "should return the user's full name" do
+        expect(result).to eq "first last"
+      end
+    end
+
+    context "no user found" do
+      let(:user) { build_stubbed :user }
+
+      it "should return nil" do
+        expect(result).to eq nil
+      end
+    end
+  end
+
   describe ".find_or_create_from_omniauth" do
     let(:result) { subject.class.find_or_create_from_omniauth(auth) }
     let(:auth) { build :omniauth }
@@ -111,10 +153,10 @@ RSpec.describe User, type: :model do
 
     context "with linked social profiles" do
       let(:provider) { "facebook" }
-      let!(:authorization) { create :authorization, user: user, provider: provider } 
+      let!(:authorization) { create :authorization, user: user, provider: provider }
 
       it "should return the providers" do
-        expect(result).to eq [provider] 
+        expect(result).to eq [provider]
       end
     end
 
@@ -131,7 +173,7 @@ RSpec.describe User, type: :model do
     let(:user) { create :user }
 
     context "social profile is linked" do
-      let!(:authorization) { create :authorization, user: user, provider: provider } 
+      let!(:authorization) { create :authorization, user: user, provider: provider }
       let(:provider) { "facebook" }
 
       it "should return true" do
@@ -140,11 +182,34 @@ RSpec.describe User, type: :model do
     end
 
     context "social profile isnt linked" do
-      let!(:authorization) { create :authorization, user: user, provider: "facebook" } 
+      let!(:authorization) { create :authorization, user: user, provider: "facebook" }
       let(:provider) { "linkedin" }
 
       it "should return false" do
         expect(result).to eq false
+      end
+    end
+  end
+
+  describe "#social_profile_auth(providers_list)" do
+    subject { user }
+    let(:result) { subject.social_profile_auths(providers_list) }
+    let!(:authorization) { create :authorization, user: user, provider: "facebook" }
+    let(:user) { create :user }
+
+    context "no match" do
+      let(:providers_list) { ["twitter"] }
+
+      it "should return empty array" do
+        expect(result).to eq []
+      end
+    end
+
+    context "given array of providers" do
+      let(:providers_list) { ["facebook", "twitter"] }
+
+      it "should return authorizations that match" do
+        expect(result).to eq [authorization]
       end
     end
   end
