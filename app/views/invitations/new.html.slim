@@ -1,5 +1,5 @@
 = simple_form_for(@invitation) do |f|
-  = f.input :friend_id
+  = f.input :friend, input_html: {id: "user_search" }
 
   = f.input :socials, collection: current_user.social_profiles, as: :check_boxes, input_html: { checked: true }
 
