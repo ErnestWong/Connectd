@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require jquery-ui/autocomplete
 //= require turbolinks
+//= require namespace
+//= require init
 //= require_tree .
 //= require foundation
 $(function(){ $(document).foundation(); });
