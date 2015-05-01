@@ -25,7 +25,7 @@ gem 'simple_form'
 gem 'sqlite3'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
-
+gem 'underscore-rails'
 
 group :development do
   gem 'better_errors'
