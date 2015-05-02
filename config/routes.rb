@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => { registrations: 'registrations', omniauth_callbacks: "users/omniauth_callbacks"}
-  resources :users, only: [:show] do
+  resources :users, only: [:show, :update] do
     get :autocomplete, to: "users/search#autocomplete", on: :collection
   end
 

@@ -1,17 +1,12 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-
-  def show
-    @user ||= current_user
-    @user = User.find_by_id(params[:id]) if @user.nil?
-    render 'show'
-  end
+  before_action :load_user, only: [:show, :update, :invite]
 
   def update
+    binding.pry
   end
 
   def invite
-    @user ||= current_user
     @invitation = Invitation.new
     render 'users/invite'
   end
@@ -45,7 +40,11 @@ class UsersController < ApplicationController
 
 protected
 
-  def user_param
+  def load_user
+    @user = User.find(params[:id])
+  end
+
+  def user_params
     params.require(:user).permit(:username)
   end
   def profile_params

@@ -1,0 +1,13 @@
+.user-profile-container {
+  @extend %outer-column;
+
+  .user-profile-header {
+    @extend %inner-column;
+    margin: 1rem 0;
+  }
+
+  .user-profile-form {
+    @extend %inner-column;
+    margin: 2rem 0;
+  }
+}
