@@ -2,3 +2,5 @@
   - resource_class.omniauth_providers.each do |provider|
     - unless current_user.social_profile_linked?(provider.to_s)
       = link_to image_tag("social_media_icons/#{provider.to_s}.png"), omniauth_authorize_path(:user, provider)
+  - if current_user.fully_connected?
+    p All connectd!

@@ -2,8 +2,16 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_user, only: [:show, :update, :invite]
 
+  respond_to :json, only: [:username_valid]
+
   def update
-    binding.pry
+    @user.update_attributes(user_params)
+    if @user.save
+      flash[:notice] = "successfully updated username"
+      redirect_to user_path(@user)
+    else
+      render "show"
+    end
   end
 
   def invite
@@ -14,6 +22,9 @@ class UsersController < ApplicationController
   def searchIndex
     @user = User.new
     render 'search'
+  end
+
+  def username_valid
   end
 
   def search

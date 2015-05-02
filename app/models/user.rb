@@ -104,6 +104,15 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.username_taken?(query)
+    return User.find_username(query).count > 0
+  end
+
+  def self.find_username(query)
+    return [] if query.blank?
+    where(username: query)
+  end
+
   def self.fuzzy_search(query)
     query = query.downcase unless query.nil?
     return [] if query.blank?

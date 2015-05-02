@@ -10,4 +10,8 @@
     @extend %inner-column;
     margin: 2rem 0;
   }
+
+  .user-profile-form-validator {
+    @extend .columns, .small-2;
+  }
 }

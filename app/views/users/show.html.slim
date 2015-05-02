@@ -14,10 +14,15 @@
       h4 Set up username:
       
       = simple_form_for(@user) do |f|
-        = f.input :username, label: false, placeholder: "Enter unique username"
-        = f.button :submit
-      = fa_icon "check"
-      = fa_icon "times"
+        .row
+          .columns.small-10
+            = f.input :username, label: false, placeholder: "Enter unique username"
+          .user-profile-form-validator 
+            = fa_icon "check"
+            = fa_icon "times"
+        .row
+          .columns.small-12
+            = f.button :submit
 
   - if @user != current_user
     div align="center"
