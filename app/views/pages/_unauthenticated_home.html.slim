@@ -12,9 +12,8 @@
     h4 or
     .homepage-login
       = simple_form_for(:user, url: session_path(:user), html: {class: 'connectd-form'}) do |f|
-        = f.input :login
-        = f.input :password
+        = f.input :login, label: false, placeholder: "Your email address"
+        = f.input :password, label: false, placeholder: "Enter your password"
         = f.button :submit, "Log in"
-    =link_to "Sign up", new_user_registration_path
-
-    = render "devise/shared/links"
+    p 
+      | Don't have an account? #{link_to "Sign up", new_user_registration_path}
