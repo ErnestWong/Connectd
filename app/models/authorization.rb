@@ -15,4 +15,8 @@ class Authorization < ActiveRecord::Base
   def is_twitter?
     provider.downcase == "twitter"
   end
+
+  def email
+    data.info.email
+  end
 end

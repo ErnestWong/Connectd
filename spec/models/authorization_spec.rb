@@ -39,4 +39,19 @@ RSpec.describe Authorization, type: :model do
       end
     end
   end
+
+  describe ".email" do
+    subject { build_stubbed :authorization, data: omniauth }
+    let(:omniauth) { create :omniauth, info: info }
+    let(:info) {
+      {
+        email: "email@email.com"
+      }
+    }
+    let(:result){ subject.email }
+
+    it "should return email" do
+      expect(result).to eq info[:email]
+    end
+  end
 end
