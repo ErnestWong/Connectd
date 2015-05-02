@@ -47,7 +47,6 @@ class InvitationsController < ApplicationController
           client.authorization.client_id = ENV['GPLUS_APP_ID']
           client.authorization.client_secret = ENV['GPLUS_APP_SECRET']
           client.authorization.access_token = gplus_provider.data.credentials.token
-          # plus = client.discovered_api('plus')
           plus = client.discovered_api('plusDomains')
           userId = @invitation.friend.social_profile_auths([:gplus])[0].data.extra.raw_info.id
           data = client.execute api_method: plus.circles.add_people,
