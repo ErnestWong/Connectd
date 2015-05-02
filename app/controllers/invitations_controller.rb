@@ -30,17 +30,10 @@ class InvitationsController < ApplicationController
       when "linkedin"
         linkedin_provider = current_user.authorizations.find_by_provider(:linkedin)
         if linkedin_provider && friend.social_profile_linked?(:linkedin)
-          consumer_options = {
-            :request_token_path => "/uas/oauth/requestToken?scope=r_fullprofile+rw_network+rw_nus+rw_emailaddress+rw_groups",
-            :access_token_path  => "/uas/oauth/accessToken",
-            :authorize_path     => "/uas/oauth/authorize",
-            :api_host           => "https://api.linkedin.com",
-            :auth_host          => "https://www.linkedin.com"
-          }
-          client = LinkedIn::Client.new(ENV['LINKEDIN_APP_ID'], ENV['LINKEDIN_APP_SECRET'], consumer_options)
+          client = LinkedIn::Client.new(ENV['LINKEDIN_APP_ID'], ENV['LINKEDIN_APP_SECRET'])
           client.authorize_from_access(linkedin_provider.data.credentials.token, linkedin_provider.data.credentials.secret)
           email = friend.social_profile_auths([:linkedin])[0].email
-          client.send_invitation({:email => email, :first_name => @invitation.friend.first_name, :last_name => @invitation.friend.last_name})
+          client.send_invitation({:email => email})#, :first_name => @invitation.friend.first_name, :last_name => @invitation.friend.last_name})
         end
       when "facebook"
         facebook_provider = current_user.authorizations.find_by_provider(:facebook)
