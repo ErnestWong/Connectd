@@ -3,14 +3,24 @@ namespace("C");
 C.invitations =
   function() {
     var user_search = $("#user_search");
-    results = [];
-    obj = {
+    var user_id_search = $("#user_id_search");
+
+    var obj = {
       delay: 100,
       minLength: 2,
-      source: getAutocomplete 
+      source: getAutocomplete,
+      select: handleSelect
     };
 
     user_search.autocomplete(obj);
+
+    function handleSelect(event, ui) {
+      if(ui.item) {
+        event.preventDefault();
+        $("#user_search").val(ui.item.label);
+        $("#user_id_search").val(ui.item.value);
+      }
+    };
 
     function getAutocomplete(req, response) {
       params = { search: { query: req.term } };
@@ -33,7 +43,7 @@ C.invitations =
       resultArray = _.map(data, function(user) {
         return {
           label: user.name,
-          id: user.id
+          value: user.id
         };
       });
       return resultArray;
