@@ -31,7 +31,7 @@ class InvitationsController < ApplicationController
         linkedin_provider = current_user.authorizations.find_by_provider(:linkedin)
         if linkedin_provider && friend.social_profile_linked?(:linkedin)
           consumer_options = {
-            :request_token_path => "/uas/oauth/requestToken?scope=r_basicprofile+rw_nus",
+            :request_token_path => "/uas/oauth/requestToken?scope=r_fullprofile+rw_network+rw_nus+rw_emailaddress+rw_groups",
             :access_token_path  => "/uas/oauth/accessToken",
             :authorize_path     => "/uas/oauth/authorize",
             :api_host           => "https://api.linkedin.com",
