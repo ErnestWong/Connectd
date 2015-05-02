@@ -1,15 +1,20 @@
-h1.main-heading
-  |  Welcome to Connectd
-span#toggle-login.button href="#"  Log in
-#login
-  #triangle
-  h1 Log in
-  = simple_form_for(:user, url: session_path(:user), html: {class: 'connectd-form'}) do |f|
-    .form-inputs
-      = f.input :login
-      = f.input :password
-    .form-actions
-      = f.button :submit, "Log in"
+.row
+  .homepage-main-container
+    .homepage-main-text
+      h1 Connectd
+    .homepage-main-logo
+      =image_tag "connectd.png"
+
+    h4 Log in through any of the social media
+    .homepage-social-media-sign-in
+      - resource_class.omniauth_providers.each do |provider|
+        = link_to image_tag("social_media_icons/#{provider.to_s}.png"), omniauth_authorize_path(:user, provider)
+    h4 or
+    .homepage-login
+      = simple_form_for(:user, url: session_path(:user), html: {class: 'connectd-form'}) do |f|
+        = f.input :login
+        = f.input :password
+        = f.button :submit, "Log in"
     =link_to "Sign up", new_user_registration_path
 
-  = render "devise/shared/links"
+    = render "devise/shared/links"

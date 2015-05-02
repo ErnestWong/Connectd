@@ -1,0 +1,29 @@
+%inner-column {
+  @extend .columns, .medium-12, .large-12, .small-12, .medium-centered;
+}
+
+%outer-column {
+  @extend .columns, .medium-6, .large-6, .medium-centered;
+}
+
+.homepage-main-container {
+  @extend %outer-column;
+  text-align: center; 
+
+  .homepage-main-text {
+  }
+
+  .homepage-login {
+    @extend %inner-column;
+  }
+
+  .homepage-form-actions {
+    @extend %inner-column;
+  }
+
+  .homepage-social-media-sign-in {
+    @extend %inner-column;
+    img {
+    }
+  }
+}
