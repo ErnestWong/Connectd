@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
     :validatable, :authentication_keys => [:login]
 
   devise :omniauthable, :omniauth_providers => [:facebook, :twitter, :gplus, :linkedin]
+  AUTOCOMPLETE_FIELDS = ["first_name", "last_name", "username"].freeze
 
   attr_accessor :login
 
@@ -96,6 +97,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.fuzzy_search(query)
+    query = query.downcase unless query.nil?
+    return [] if query.blank?
+    where(build_query_string, query: "%#{query}%")
+  end
+
   def find_invitation(friend)
     invitations.find_by_friend_id(friend.id) unless friend.nil?
   end
@@ -103,5 +110,15 @@ class User < ActiveRecord::Base
   def self.find_name_by_id(id)
     user = User.find_by_id(id)
     user.full_name unless user.nil?
+  end
+
+private
+
+  def self.build_query_string
+    array_query = []
+    AUTOCOMPLETE_FIELDS.each do |field|
+      array_query << "LOWER(#{field}) LIKE :query"
+    end
+    array_query.join(" OR ")
   end
 end

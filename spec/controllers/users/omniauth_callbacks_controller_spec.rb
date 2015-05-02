@@ -21,9 +21,9 @@ describe Users::OmniauthCallbacksController do
         expect { subject }.to change(Authorization, :count).by(1)
       end
 
-      it "should redirect to root url" do
+      it "should redirect to users path" do
         subject
-        expect(response).to redirect_to root_url
+        expect(response).to redirect_to user_path(User.last)
       end
     end
 
@@ -39,9 +39,9 @@ describe Users::OmniauthCallbacksController do
         expect { subject }.to_not change(Authorization, :count)
       end
 
-      it "should redirect to root url" do
+      it "should redirect to users path" do
         subject
-        expect(response).to redirect_to root_url
+        expect(response).to redirect_to user_path(User.last)
       end
     end
 

@@ -12,7 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
-//= require_tree .
+//= require jquery-ui/autocomplete
 //= require foundation
+//= require underscore
+//= require turbolinks
+//= require namespace
+//= require init
+//= require_tree .
+
 $(function(){ $(document).foundation(); });

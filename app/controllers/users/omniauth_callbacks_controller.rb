@@ -8,7 +8,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user = User.find_or_create_from_omniauth(auth)
 
     if @user && @user.persisted?
-      sign_in_and_redirect @user
+      sign_in @user
+      redirect_to user_path(@user)
     else
       redirect_to new_user_registration_url
     end

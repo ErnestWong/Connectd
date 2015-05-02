@@ -213,4 +213,35 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe ".fuzzy_search(query)" do
+    let(:result) { subject.class.fuzzy_search(query) }
+    before do
+      create :user, username: "Jimmy2131" 
+      create :user, first_name: "Jim2013"
+      create :user, last_name: "Yo"
+    end
+
+    context "given query" do
+      let(:query) { "jim" }
+      it "should return users matching any of fields" do
+        expect(result.count).to eq 2 
+      end
+    end
+
+    context "empty query" do
+      let(:query) { nil }
+      it "should return empty" do
+        expect(result).to eq []
+      end
+    end
+  end
+
+  describe ".build_query_string" do
+    let(:result) { subject.class.build_query_string }
+
+    it "should return query string of autocomplete fields" do
+      expect(result).to eq "LOWER(first_name) LIKE :query OR LOWER(last_name) LIKE :query OR LOWER(username) LIKE :query"
+    end
+  end
 end
