@@ -38,6 +38,11 @@ class User < ActiveRecord::Base
     social_profiles.include? provider.downcase
   end
 
+  def fully_connected?
+    social_medias = User.omniauth_providers.map(&:to_s)
+    social_medias.sort == social_profiles.sort
+  end
+
   def invitations_received
     Invitation.where(friend_id: id)
   end

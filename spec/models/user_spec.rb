@@ -217,7 +217,7 @@ RSpec.describe User, type: :model do
   describe ".fuzzy_search(query)" do
     let(:result) { subject.class.fuzzy_search(query) }
     before do
-      create :user, username: "Jimmy2131" 
+      create :user, username: "Jimmy2131"
       create :user, first_name: "Jim2013"
       create :user, last_name: "Yo"
     end
@@ -225,7 +225,7 @@ RSpec.describe User, type: :model do
     context "given query" do
       let(:query) { "jim" }
       it "should return users matching any of fields" do
-        expect(result.count).to eq 2 
+        expect(result.count).to eq 2
       end
     end
 
@@ -242,6 +242,25 @@ RSpec.describe User, type: :model do
 
     it "should return query string of autocomplete fields" do
       expect(result).to eq "LOWER(first_name) LIKE :query OR LOWER(last_name) LIKE :query OR LOWER(username) LIKE :query"
+    end
+  end
+
+  describe ".fully connected?" do
+    let(:result) { subject.fully_connected? }
+    before { subject.stub(:social_profiles) { social_profiles } }
+
+    context "fully connected" do
+      let(:social_profiles) { ["twitter", "linkedin", "gplus", "facebook"] }
+      it "should return true" do
+        expect(result).to eq true
+      end
+    end
+
+    context "not fully connected" do
+      let(:social_profiles) { ["twitter"] }
+      it "should return false" do
+        expect(result).to eq false
+      end
     end
   end
 end
