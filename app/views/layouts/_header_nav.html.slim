@@ -1,0 +1,21 @@
+nav.top-bar data-topbar="" role="navigation"
+  ul.title-area
+    li.name
+      h1
+        a href="#{root_path}"  Connectd
+    li.toggle-topbar.menu-icon
+      a href="#"
+        - if user_signed_in?
+          span= current_user.full_name
+        - else
+          span Menu
+  section.top-bar-section
+    ul.right
+      li.has-dropdown
+        -if user_signed_in?
+          li= link_to "Profile", user_path(current_user)
+          li= link_to "Find Friends", user_search_index_path
+          li= link_to "Send Invitation", new_invitation_path
+          li= link_to "Log out", destroy_user_session_path, method: :delete
+        -else
+          li= link_to "Sign up", new_user_registration_path
