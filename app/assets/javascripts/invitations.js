@@ -6,29 +6,36 @@ C.invitations =
     results = [];
     obj = {
       delay: 100,
-      minLength: 3,
-      source: results 
+      minLength: 2,
+      source: getAutocomplete 
     };
 
     user_search.autocomplete(obj);
 
-    user_search.on("keyup change", autocomplete);
-
-    function autocomplete() {
-      var input = $(this).val();
-      getAutocomplete(input);
+    function getAutocomplete(req, response) {
+      params = { search: { query: req.term } };
+      $.when(
+        $.get("/users/autocomplete", params, function(data) {
+          results = mapResults(data.users_results);
+        })
+      ).then(
+        function() {
+          response(results); 
+        },
+        function() {
+          response();
+        }
+      );
     };
 
-    function getAutocomplete(input) {
-      params = { search: { query: input } };
-      $.get("/users/autocomplete", params, function(data) {
-        $.each(data, function(user) {
-          debugger
-          results.push({
-            label: user.first_name + " " + user.last_name + "--" + user.username,
-            value: user.id
-          });
-        });
+    function mapResults(data) {
+      var resultArray = [];
+      resultArray = _.map(data, function(user) {
+        return {
+          label: user.name,
+          id: user.id
+        };
       });
+      return resultArray;
     };
   };
