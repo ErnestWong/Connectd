@@ -5,14 +5,14 @@ C.invitations =
     var user_search = $("#user_search");
     var user_id_search = $("#user_id_search");
 
-    var obj = {
+    var opts = {
       delay: 100,
       minLength: 2,
       source: getAutocomplete,
       select: handleSelect
     };
 
-    user_search.autocomplete(obj);
+    user_search.autocomplete(opts);
 
     function handleSelect(event, ui) {
       if(ui.item) {
