@@ -7,8 +7,7 @@ FactoryGirl.define do
         nickname: "Nickname #{n}",
         first_name: "First#{n}",
         last_name: "Last#{n}",
-        email: "omniauth#{n}@boltmade.com",
-        image: "social_icons/Facebook.png"
+        email: "omniauth#{n}@connectd.com",
       }
     end
 
