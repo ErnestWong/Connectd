@@ -27,6 +27,7 @@ gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 gem 'underscore-rails'
 gem 'twitter'
+gem 'linkedin'
 
 group :development do
   gem 'better_errors'
