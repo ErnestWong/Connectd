@@ -7,6 +7,9 @@ class UsersController < ApplicationController
     render 'show'
   end
 
+  def update
+  end
+
   def invite
     @user ||= current_user
     @invitation = Invitation.new
@@ -41,7 +44,8 @@ class UsersController < ApplicationController
   end
 
 protected
-  def invitation_params
+
+  def user_param
     params.require(:user).permit(:username)
   end
   def profile_params
