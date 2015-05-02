@@ -7,9 +7,59 @@ RSpec.describe User, type: :model do
     expect(subject).to be_valid
   end
 
-  describe "#login=" do
-  end
-  describe "#login" do
+  describe "username" do
+    subject { build_stubbed :user, username: username }
+
+    context "existing username" do
+      before { create :user, username: "username1" }
+      let(:username) { "username1" }
+      it "should not be valid" do
+        expect(subject).to_not be_valid
+      end
+    end
+
+    context "too long" do
+      let(:username) { "usernametoolong usernametoolong usernametoolong usernametoolong usernametoolong usernametoolong usernametoolong usernametoolong " }
+      it "should not be valid" do
+        expect(subject).to_not be_valid
+      end
+    end
+
+    context "too short" do
+      let(:username) { "ds" }
+      it "should not be valid" do
+        expect(subject).to_not be_valid
+      end
+    end
+
+    context "when blank" do
+      let(:username) { "" }
+      it "should not be valid" do
+        expect(subject).to_not be_valid
+      end
+    end
+
+    context "invalid characters" do
+      let(:username) { "@user%!" }
+      it "should not be valid" do
+        expect(subject).to_not be_valid
+      end
+    end
+
+    context "when nil" do
+      let(:username) { nil }
+      it "should be valid" do
+        expect(subject).to be_valid
+      end
+    end
+
+    context "valid" do
+      let(:username) { "username_12" }
+      it "should be valid" do
+        binding.pry
+        expect(subject).to be_valid
+      end
+    end
   end
 
   describe "#invitations_received" do

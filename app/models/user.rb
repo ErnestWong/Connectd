@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   has_many :friends, through: :invitations
   has_many :authorizations
 
+  validates :username, length: { minimum: 5, maximum: 100 }, allow_nil: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9_]+\Z/ }
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

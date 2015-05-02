@@ -3,6 +3,39 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
   let(:user) { create :user }
 
+  describe "PUT update" do
+    subject { put :update, user: params, id: user.to_param }
+    let(:params) { { username: username } }
+
+    before { sign_in user }
+
+    context "username valid" do
+      let(:username) { "validusername" }
+      it "should update the user" do
+        subject
+        expect(user.reload.username).to eq username
+      end
+
+      it "should redirect to user show page" do
+        subject
+        expect(response).to redirect_to user_path(user)
+      end
+    end
+
+    context "username invalid" do
+      let(:username) { "23" }
+      it "should not update the user" do
+        subject
+        expect(user.reload.username).to_not eq username
+      end
+
+      it "should render user show page" do
+        subject
+        expect(response).to render_template "show"
+      end
+    end
+  end
+
   describe "GET show" do
     subject { get :show, id: user.to_param }
 
