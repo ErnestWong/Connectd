@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_user, only: [:show, :update, :invite]
+  before_action :load_user, only: [:show, :update, :invite, :username_check]
 
   respond_to :json, only: [:username_valid]
 
@@ -24,7 +24,11 @@ class UsersController < ApplicationController
     render 'search'
   end
 
-  def username_valid
+  def username_check
+    @user.update_attributes(user_params) 
+    @user.valid?
+    @errors = @user.errors.messages[:username]
+    render "users/username_check.json"
   end
 
   def search

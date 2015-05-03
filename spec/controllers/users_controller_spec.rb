@@ -54,6 +54,40 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
+  describe "GET username_check" do
+    subject { get :username_check, user: params, id: user.to_param }
+    let(:params) { { username: username } }
+    before { sign_in user }
+
+    context "valid username" do
+      let(:username) { "username123" }
+
+      it "should be nil" do
+        subject
+        expect(assigns(:errors)).to eq nil
+      end
+
+      it "should render json" do
+        subject
+        expect(response).to render_template "users/username_check.json"
+      end
+    end
+
+    context "invalid username" do
+      let(:username) { "u_1@" }
+
+      it "should assign errors to errors" do
+        subject
+        expect(assigns(:errors).count).to be > 0
+      end
+
+      it "should render json" do
+        subject
+        expect(response).to render_template "users/username_check.json"
+      end
+    end
+  end
+
   describe "GET searchIndex" do
     subject { get :searchIndex }
     context "user signed in" do
