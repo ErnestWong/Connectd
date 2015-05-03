@@ -19,7 +19,7 @@ RSpec.describe User, type: :model do
     end
 
     context "too long" do
-      let(:username) { "usernametoolong usernametoolong usernametoolong usernametoolong usernametoolong usernametoolong usernametoolong usernametoolong " }
+      let(:username) { "1234567890username1234567890" }
       it "should not be valid" do
         expect(subject).to_not be_valid
       end

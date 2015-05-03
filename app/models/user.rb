@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 
   validates_with UsernameValidator
 
-  validates :username, length: { minimum: 5, maximum: 100 }, allow_nil: true, uniqueness: true
+  validates :username, length: { minimum: 5, maximum: 25 }, allow_nil: true, uniqueness: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
