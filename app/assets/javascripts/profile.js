@@ -1,27 +1,29 @@
 namespace("C");
 
-C["users_show"] = 
+C["users_show"] =
   function() {
-    var username_input = $("#username_input");
-    var valid_icon = $("#valid_icon");
-    var invalid_icon = $("#error_icon");
-    var valid = false;
-    valid_icon.hide();
-    invalid_icon.hide();
-
+    //TODO: improve finding user id
     var userid = window.location.pathname.match(/(\d+)\/*$/)[1];
+    initStatus();
 
-    username_input.bind("change paste keyup", function() {
+    $("#username_input").bind("change paste keyup", function() {
       var input = $(this).val();
       checkUsername(input);
     });
 
+    function initStatus() {
+      $("#valid_icon").hide();
+      $("#invalid_icon").hide();
+
+      if($("#username_input").val()) {
+        checkUsername($("#username_input").val());
+      }
+    }
+
     function checkUsername(input) {
-      params = {  id: userid ,  user: { username: input } }
+      params = { id: userid ,  user: { username: input } }
       $.when(
-        $.get("/users/" + userid + "/username_check", params, function(data) {
-          errors = data.user_errors;
-        })
+        $.get("/users/" + userid + "/username_check", params)
       ).then(
         function(data) {
           updateStatus(data.user_errors);
@@ -30,10 +32,10 @@ C["users_show"] =
     }
 
     function updateStatus(errors) {
-      valid = (errors.length == 0);
+      var valid = (errors.length == 0);
 
-      valid ? invalid_icon.hide() : valid_icon.hide();
-      valid ? valid_icon.show() : invalid_icon.show();
+      valid ? $("#invalid_icon").hide() : $("#valid_icon").hide();
+      valid ? $("#valid_icon").show() : $("#invalid_icon").show();
 
       $(".user-profile-form-errors").empty();
 
