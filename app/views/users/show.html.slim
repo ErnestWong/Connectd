@@ -18,8 +18,10 @@
           .columns.small-10
             = f.input :username, label: false, placeholder: "Enter unique username", input_html: { id: "username_input" }
           .user-profile-form-validator 
-            = fa_icon "check"
-            = fa_icon "times"
+            #valid_icon= fa_icon "check"
+            #error_icon= fa_icon "times"
+        .user-profile-form-errors
+          p hi
         .row
           .columns.small-12
             = f.button :submit
