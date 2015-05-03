@@ -39,14 +39,21 @@ class InvitationsController < ApplicationController
         facebook_provider = current_user.authorizations.find_by_provider(:facebook)
         if facebook_provider && friend.social_profile_linked?(:facebook)
           # TO DO
+          email = friend.social_profile_auths([:linkedin])[0].data.info.urls["Facebook"]
         end
       when "gplus"
+        # TO DO: investigate why responses are 403
         gplus_provider = current_user.authorizations.find_by_provider(:gplus)
         if gplus_provider && friend.social_profile_linked?(:gplus)
           client = Google::APIClient.new
           client.authorization.client_id = ENV['GPLUS_APP_ID']
           client.authorization.client_secret = ENV['GPLUS_APP_SECRET']
           client.authorization.access_token = gplus_provider.data.credentials.token
+          # client.authorization.scope = %w^openid
+          #                           https://www.googleapis.com/auth/plus.circles.write
+          #                           https://www.googleapis.com/auth/plus.circles.read
+          #                           https://www.googleapis.com/auth/plus.me
+          #                           https://www.googleapis.com/auth/plus.login^
           plus = client.discovered_api('plusDomains')
           userId = @invitation.friend.social_profile_auths([:gplus])[0].data.extra.raw_info.id
           data = client.execute api_method: plus.circles.add_people,
