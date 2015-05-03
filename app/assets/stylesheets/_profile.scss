@@ -14,4 +14,13 @@
   .user-profile-form-validator {
     @extend .columns, .small-2;
   }
+
+  .user-profile-form-errors {
+    @extend .columns, .small-12;
+    color: red;
+
+    > p {
+      font-size: 0.75rem;
+    }
+  }
 }
