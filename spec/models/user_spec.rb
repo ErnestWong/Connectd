@@ -40,7 +40,7 @@ RSpec.describe User, type: :model do
     end
 
     context "invalid characters" do
-      let(:username) { "@user%!" }
+      let(:username) { "-user%!" }
       it "should not be valid" do
         expect(subject).to_not be_valid
       end
@@ -56,7 +56,6 @@ RSpec.describe User, type: :model do
     context "valid" do
       let(:username) { "username_12" }
       it "should be valid" do
-        binding.pry
         expect(subject).to be_valid
       end
     end
