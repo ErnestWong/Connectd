@@ -16,7 +16,7 @@
       = simple_form_for(@user) do |f|
         .row
           .columns.small-10
-            = f.input :username, label: false, placeholder: "Enter unique username"
+            = f.input :username, label: false, placeholder: "Enter unique username", input_html: { id: "username_input" }
           .user-profile-form-validator 
             = fa_icon "check"
             = fa_icon "times"

@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_user, only: [:show, :update, :invite, :username_check]
 
-  respond_to :json, only: [:username_valid]
+  respond_to :json, only: [:username_check]
 
   def update
     @user.update_attributes(user_params)
