@@ -1,14 +1,20 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :load_user, only: [:show, :update, :invite, :username_check]
 
-  def show
-    @user ||= current_user
-    @user = User.find_by_id(params[:id]) if @user.nil?
-    render 'show'
+  respond_to :json, only: [:username_check]
+
+  def update
+    @user.update_attributes(user_params)
+    if @user.save
+      flash[:notice] = "successfully updated username"
+      redirect_to user_path(@user)
+    else
+      render "show"
+    end
   end
 
   def invite
-    @user ||= current_user
     @invitation = Invitation.new
     render 'users/invite'
   end
@@ -16,6 +22,13 @@ class UsersController < ApplicationController
   def searchIndex
     @user = User.new
     render 'search'
+  end
+
+  def username_check
+    @user.update_attributes(user_params) 
+    @user.valid?
+    @errors = @user.errors.messages[:username]
+    render "users/username_check.json"
   end
 
   def search
@@ -41,7 +54,12 @@ class UsersController < ApplicationController
   end
 
 protected
-  def invitation_params
+
+  def load_user
+    @user = User.find(params[:id])
+  end
+
+  def user_params
     params.require(:user).permit(:username)
   end
   def profile_params

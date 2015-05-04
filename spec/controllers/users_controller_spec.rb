@@ -3,6 +3,39 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
   let(:user) { create :user }
 
+  describe "PUT update" do
+    subject { put :update, user: params, id: user.to_param }
+    let(:params) { { username: username } }
+
+    before { sign_in user }
+
+    context "username valid" do
+      let(:username) { "validusername" }
+      it "should update the user" do
+        subject
+        expect(user.reload.username).to eq username
+      end
+
+      it "should redirect to user show page" do
+        subject
+        expect(response).to redirect_to user_path(user)
+      end
+    end
+
+    context "username invalid" do
+      let(:username) { "23" }
+      it "should not update the user" do
+        subject
+        expect(user.reload.username).to_not eq username
+      end
+
+      it "should render user show page" do
+        subject
+        expect(response).to render_template "show"
+      end
+    end
+  end
+
   describe "GET show" do
     subject { get :show, id: user.to_param }
 
@@ -17,6 +50,40 @@ RSpec.describe UsersController, type: :controller do
       it "should assign user to user" do
         subject
         expect(assigns(:user)).to eq user
+      end
+    end
+  end
+
+  describe "GET username_check" do
+    subject { get :username_check, user: params, id: user.to_param }
+    let(:params) { { username: username } }
+    before { sign_in user }
+
+    context "valid username" do
+      let(:username) { "username123" }
+
+      it "should be nil" do
+        subject
+        expect(assigns(:errors)).to eq nil
+      end
+
+      it "should render json" do
+        subject
+        expect(response).to render_template "users/username_check.json"
+      end
+    end
+
+    context "invalid username" do
+      let(:username) { "u_1@" }
+
+      it "should assign errors to errors" do
+        subject
+        expect(assigns(:errors).count).to be > 0
+      end
+
+      it "should render json" do
+        subject
+        expect(response).to render_template "users/username_check.json"
       end
     end
   end

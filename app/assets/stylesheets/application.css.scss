@@ -12,7 +12,7 @@
  * file per style scope.
  *
 
- *= require jquery.ui.autocomplete
+ *= require jquery-ui
  *= require_tree .
  *= require_self
  //= require foundation_and_overrides
@@ -20,7 +20,13 @@
  *= require foundation
  */
 
+@import "jquery-ui/autocomplete";
+@import "jquery-ui";
+
+@import "font-awesome";
+@import "icons";
 @import "forms";
 @import "variables";
 @import "homepage";
+@import "profile";
 @import "registrations";

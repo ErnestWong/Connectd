@@ -7,9 +7,69 @@ RSpec.describe User, type: :model do
     expect(subject).to be_valid
   end
 
-  describe "#login=" do
+  describe "downcase_username" do
+    subject { build_stubbed :user, username: username }
+    let(:username) { "uSerName1" }
+
+    it "should return lowercase" do
+      subject.valid?
+      expect(subject.username).to eq "username1"
+    end
   end
-  describe "#login" do
+
+  describe "username" do
+    subject { build_stubbed :user, username: username }
+
+    context "existing username case insensitive" do
+      before { create :user, username: "uSernAme1" }
+      let(:username) { "username1" }
+
+      it "should not be valid" do
+        expect(subject).to_not be_valid
+      end
+    end
+
+    context "too long" do
+      let(:username) { "1234567890username1234567890" }
+      it "should not be valid" do
+        expect(subject).to_not be_valid
+      end
+    end
+
+    context "too short" do
+      let(:username) { "ds" }
+      it "should not be valid" do
+        expect(subject).to_not be_valid
+      end
+    end
+
+    context "when blank" do
+      let(:username) { "" }
+      it "should not be valid" do
+        expect(subject).to_not be_valid
+      end
+    end
+
+    context "invalid characters" do
+      let(:username) { "-user%!" }
+      it "should not be valid" do
+        expect(subject).to_not be_valid
+      end
+    end
+
+    context "when nil" do
+      let(:username) { nil }
+      it "should be valid" do
+        expect(subject).to be_valid
+      end
+    end
+
+    context "valid" do
+      let(:username) { "username_12" }
+      it "should be valid" do
+        expect(subject).to be_valid
+      end
+    end
   end
 
   describe "#invitations_received" do
@@ -217,7 +277,7 @@ RSpec.describe User, type: :model do
   describe ".fuzzy_search(query)" do
     let(:result) { subject.class.fuzzy_search(query) }
     before do
-      create :user, username: "Jimmy2131" 
+      create :user, username: "Jimmy2131"
       create :user, first_name: "Jim2013"
       create :user, last_name: "Yo"
     end
@@ -225,7 +285,7 @@ RSpec.describe User, type: :model do
     context "given query" do
       let(:query) { "jim" }
       it "should return users matching any of fields" do
-        expect(result.count).to eq 2 
+        expect(result.count).to eq 2
       end
     end
 
@@ -242,6 +302,25 @@ RSpec.describe User, type: :model do
 
     it "should return query string of autocomplete fields" do
       expect(result).to eq "LOWER(first_name) LIKE :query OR LOWER(last_name) LIKE :query OR LOWER(username) LIKE :query"
+    end
+  end
+
+  describe ".fully connected?" do
+    let(:result) { subject.fully_connected? }
+    before { subject.stub(:social_profiles) { social_profiles } }
+
+    context "fully connected" do
+      let(:social_profiles) { ["twitter", "linkedin", "gplus", "facebook"] }
+      it "should return true" do
+        expect(result).to eq true
+      end
+    end
+
+    context "not fully connected" do
+      let(:social_profiles) { ["twitter"] }
+      it "should return false" do
+        expect(result).to eq false
+      end
     end
   end
 end

@@ -1,0 +1,26 @@
+.user-profile-container {
+  @extend %outer-column;
+
+  .user-profile-header {
+    @extend %inner-column;
+    margin: 1rem 0;
+  }
+
+  .user-profile-form {
+    @extend %inner-column;
+    margin: 2rem 0;
+  }
+
+  .user-profile-form-validator {
+    @extend .columns, .small-2;
+  }
+
+  .user-profile-form-errors {
+    @extend .columns, .small-12;
+    color: red;
+
+    > p {
+      font-size: 0.75rem;
+    }
+  }
+}

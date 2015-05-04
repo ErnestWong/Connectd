@@ -1,7 +1,15 @@
 class User < ActiveRecord::Base
+  include ActiveModel::Validations
+
   has_many :invitations
   has_many :friends, through: :invitations
   has_many :authorizations
+
+  validates_with UsernameValidator
+
+  before_validation :downcase_username
+
+  validates :username, length: { minimum: 5, maximum: 25 }, allow_nil: true, uniqueness: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -16,6 +24,10 @@ class User < ActiveRecord::Base
 
   def login=(login)
     @login = login
+  end
+
+  def downcase_username
+    username = username.downcase unless username.nil?
   end
 
   def login
@@ -36,6 +48,11 @@ class User < ActiveRecord::Base
 
   def social_profile_linked?(provider=nil)
     social_profiles.include? provider.downcase
+  end
+
+  def fully_connected?
+    social_medias = User.omniauth_providers.map(&:to_s)
+    social_medias.sort == social_profiles.sort
   end
 
   def invitations_received

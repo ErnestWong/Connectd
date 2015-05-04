@@ -1,15 +1,39 @@
-- if @user
-  h1.main-heading
-    = "#{@user.first_name} #{@user.last_name}"
-  = render partial: "users/shared/social_profiles"
+.user-profile-container
+  - if @user
+    .user-profile-header
+      h1 Welcome #{@user.full_name} 
+    h4 Connect your social media to stay Connectd:
+    = render partial: "users/shared/social_profiles"
 
-- if @user != current_user
-  div align="center"
-  = button_to "Get Connectd", {:controller => :invitations,
-    :action => 'create', :invitation => { :friend_id => @user.id }, :method => :create },
-    {class: 'button'}
+    h4 Connectd profiles:
+    .homepage-social-media-sign-in
+      - @user.social_profiles.each do |provider|
+        =image_tag "social_media_icons/#{provider.to_s}.png"
+    
+    .user-profile-form
+      h4 Set up username:
+      
+      = simple_form_for(@user) do |f|
+        .row
+          .columns.small-10
+            = f.input :username, label: false, placeholder: "Enter unique username", input_html: { id: "username_input" }
+          .user-profile-form-validator 
+            #valid_icon= fa_icon "check"
+            #invalid_icon= fa_icon "times"
+        .row
+          .user-profile-form-errors
 
-p= link_to "send invitation", new_invitation_path
-p= link_to "invitations", invitations_path
+        .row
+          .columns.small-12
+            = f.button :submit
+
+  - if @user != current_user
+    div align="center"
+    = button_to "Get Connectd", {:controller => :invitations,
+      :action => 'create', :invitation => { :friend_id => @user.id }, :method => :create },
+      {class: 'button'}
+
+  p= link_to "send invitation", new_invitation_path
+  p= link_to "invitations", invitations_path
 
 
