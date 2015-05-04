@@ -7,12 +7,23 @@ RSpec.describe User, type: :model do
     expect(subject).to be_valid
   end
 
+  describe "downcase_username" do
+    subject { build_stubbed :user, username: username }
+    let(:username) { "uSerName1" }
+
+    it "should return lowercase" do
+      subject.valid?
+      expect(subject.username).to eq "username1"
+    end
+  end
+
   describe "username" do
     subject { build_stubbed :user, username: username }
 
-    context "existing username" do
-      before { create :user, username: "username1" }
+    context "existing username case insensitive" do
+      before { create :user, username: "uSernAme1" }
       let(:username) { "username1" }
+
       it "should not be valid" do
         expect(subject).to_not be_valid
       end

@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
 
   validates_with UsernameValidator
 
+  before_validation :downcase_username
+
   validates :username, length: { minimum: 5, maximum: 25 }, allow_nil: true, uniqueness: true
 
   # Include default devise modules. Others available are:
@@ -22,6 +24,10 @@ class User < ActiveRecord::Base
 
   def login=(login)
     @login = login
+  end
+
+  def downcase_username
+    username = username.downcase unless username.nil?
   end
 
   def login
