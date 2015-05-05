@@ -19,19 +19,13 @@ class InvitationsController < ApplicationController
       when "twitter"
         twitter_provider = current_user.authorizations.find_by_provider(:twitter)
         if twitter_provider && friend.social_profile_linked?(:twitter)
-          client = Twitter::REST::Client.new do |config|
-            config.consumer_key        = ENV['TWITTER_APP_ID']
-            config.consumer_secret     = ENV['TWITTER_APP_SECRET']
-            config.access_token        = twitter_provider.data.credentials.token
-            config.access_token_secret = twitter_provider.data.credentials.secret
-          end
+          client = SocialApiClients.getTwitter(twitter_provider);
           client.follow(friend.social_profile_auths([:twitter])[0].data.extra.raw_info.screen_name)
         end
       when "linkedin"
         linkedin_provider = current_user.authorizations.find_by_provider(:linkedin)
         if linkedin_provider && friend.social_profile_linked?(:linkedin)
-          client = LinkedIn::Client.new(ENV['LINKEDIN_APP_ID'], ENV['LINKEDIN_APP_SECRET'])
-          client.authorize_from_access(linkedin_provider.data.credentials.token, linkedin_provider.data.credentials.secret)
+          client = SocialApiClients.getLinkedIn(linkedin_provider)
           email = friend.social_profile_auths([:linkedin])[0].email
           client.send_invitation({:email => email})#, :first_name => @invitation.friend.first_name, :last_name => @invitation.friend.last_name})
         end
@@ -39,21 +33,14 @@ class InvitationsController < ApplicationController
         facebook_provider = current_user.authorizations.find_by_provider(:facebook)
         if facebook_provider && friend.social_profile_linked?(:facebook)
           # TO DO
+          client = SocialApiClients.getFacebook(facebook_provider)
           email = friend.social_profile_auths([:linkedin])[0].data.info.urls["Facebook"]
         end
       when "gplus"
         # TO DO: investigate why responses are 403
         gplus_provider = current_user.authorizations.find_by_provider(:gplus)
         if gplus_provider && friend.social_profile_linked?(:gplus)
-          client = Google::APIClient.new
-          client.authorization.client_id = ENV['GPLUS_APP_ID']
-          client.authorization.client_secret = ENV['GPLUS_APP_SECRET']
-          client.authorization.access_token = gplus_provider.data.credentials.token
-          # client.authorization.scope = %w^openid
-          #                           https://www.googleapis.com/auth/plus.circles.write
-          #                           https://www.googleapis.com/auth/plus.circles.read
-          #                           https://www.googleapis.com/auth/plus.me
-          #                           https://www.googleapis.com/auth/plus.login^
+          client = SocialApiClients.getGPlus(gplus_provider)
           plus = client.discovered_api('plusDomains')
           userId = @invitation.friend.social_profile_auths([:gplus])[0].data.extra.raw_info.id
           data = client.execute api_method: plus.circles.add_people,
