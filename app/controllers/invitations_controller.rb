@@ -18,20 +18,20 @@ class InvitationsController < ApplicationController
       case authorization.provider
       when "twitter"
         twitter_provider = current_user.authorizations.find_by_provider(:twitter)
-        if twitter_provider && friend.social_profile_linked?(:twitter)
+        if twitter_provider && friend.social_profile_linked?("twitter")
           client = SocialApiClients.getTwitter(twitter_provider);
           client.follow(friend.social_profile_auths([:twitter])[0].data.extra.raw_info.screen_name)
         end
       when "linkedin"
         linkedin_provider = current_user.authorizations.find_by_provider(:linkedin)
-        if linkedin_provider && friend.social_profile_linked?(:linkedin)
+        if linkedin_provider && friend.social_profile_linked?("linkedin")
           client = SocialApiClients.getLinkedIn(linkedin_provider)
           email = friend.social_profile_auths([:linkedin])[0].email
-          client.send_invitation({:email => email})#, :first_name => @invitation.friend.first_name, :last_name => @invitation.friend.last_name})
+          client.send_invitation({:email => email})
         end
       when "facebook"
         facebook_provider = current_user.authorizations.find_by_provider(:facebook)
-        if facebook_provider && friend.social_profile_linked?(:facebook)
+        if facebook_provider && friend.social_profile_linked?("facebook")
           # TO DO
           client = SocialApiClients.getFacebook(facebook_provider)
           email = friend.social_profile_auths([:linkedin])[0].data.info.urls["Facebook"]
@@ -39,7 +39,7 @@ class InvitationsController < ApplicationController
       when "gplus"
         # TO DO: investigate why responses are 403
         gplus_provider = current_user.authorizations.find_by_provider(:gplus)
-        if gplus_provider && friend.social_profile_linked?(:gplus)
+        if gplus_provider && friend.social_profile_linked?("gplus")
           client = SocialApiClients.getGPlus(gplus_provider)
           plus = client.discovered_api('plusDomains')
           userId = @invitation.friend.social_profile_auths([:gplus])[0].data.extra.raw_info.id

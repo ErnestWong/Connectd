@@ -17,6 +17,7 @@ class SocialApiClients
 
   def self.getFacebook(facebook_provider)
     # TO DO
+    Koala::Facebook::API.new(facebook_provider.data.credentials.token)
   end
 
   def self.getGPlus(gplus_provider)
@@ -31,3 +32,4 @@ class SocialApiClients
           #                           https://www.googleapis.com/auth/plus.login^
     client
   end
+end
