@@ -21,6 +21,7 @@
  */
 
 @import "jquery-ui/autocomplete";
+@import "autocomplete";
 @import "jquery-ui";
 
 @import "font-awesome";
@@ -29,4 +30,5 @@
 @import "variables";
 @import "homepage";
 @import "profile";
+@import "invitations";
 @import "registrations";
