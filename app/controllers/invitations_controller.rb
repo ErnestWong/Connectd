@@ -34,7 +34,7 @@ class InvitationsController < ApplicationController
         if facebook_provider && friend.social_profile_linked?("facebook")
           # TO DO
           client = SocialApiClients.getFacebook(facebook_provider)
-          email = friend.social_profile_auths([:linkedin])[0].data.info.urls["Facebook"]
+          email = friend.social_profile_auths([:facebook])[0].data.info.urls["Facebook"]
         end
       when "gplus"
         # TO DO: investigate why responses are 403
@@ -48,14 +48,7 @@ class InvitationsController < ApplicationController
         end
       end
     end
-
-    existingInvitations = Invitation.where(user_id: current_user.id, friend_id: invitation_params[:friend_id])
-
-    if existingInvitations.length >= 1
-      flash[:notice] = "invitation already sent"
-      @user = User.find_by_id!(invitation_params[:friend_id])
-      render "users/show"
-    elsif @invitation.save
+    if @invitation.save
       flash[:notice] = "invitation sent"
       redirect_to user_path(current_user)
     else
