@@ -10,7 +10,7 @@ class Invitation < ActiveRecord::Base
     authorizations.pluck(:provider).map(&:downcase)
   end
 
-  def request(provider, current_user, friend)
+  def self.request(provider, current_user, friend)
     case provider
     when "twitter"
       twitter_provider = current_user.authorizations.find_by_provider(:twitter)
