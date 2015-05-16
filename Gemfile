@@ -22,7 +22,6 @@ gem 'rails', '4.2.0'
 gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'
 gem 'simple_form'
-gem 'sqlite3'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 gem 'underscore-rails'
@@ -41,6 +40,7 @@ end
 
 group :development, :test do
   gem 'awesome_print'
+  gem 'sqlite3'
   gem 'byebug', '3.5.1'
   gem 'dotenv-rails'
   gem 'factory_girl_rails'
@@ -49,4 +49,9 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'spring'
   gem 'spring-commands-rspec'
+end
+
+group :production do
+   gem 'pg'
+   gem 'unicorn'
 end
