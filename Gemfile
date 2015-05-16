@@ -26,6 +26,10 @@ gem 'sqlite3'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 gem 'underscore-rails'
+gem 'twitter'
+gem 'linkedin'
+gem 'koala'
+gem 'google-api-client'
 
 group :development do
   gem 'better_errors'
