@@ -14,10 +14,10 @@ class InvitationsController < ApplicationController
     @invitation = current_user.invitations.build(invitation_params)
     @invitation.authorizations = get_socials
     friend = @invitation.friend
-    @invitation.authorizations.each do |authorization|
-      Invitation.request(authorization.provider, current_user, friend);
-    end
     if @invitation.save
+      @invitation.authorizations.each do |authorization|
+        Invitation.request(authorization.provider, current_user, friend);
+      end
       flash[:notice] = "invitation sent"
       redirect_to user_path(current_user)
     else
