@@ -137,8 +137,8 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe ".find_from_omniauth" do
-    let(:result) { subject.class.find_from_omniauth(auth) }
+  describe ".find_and_update_from_omniauth" do
+    let(:result) { subject.class.find_and_update_from_omniauth(auth) }
     let(:auth) { create :omniauth }
 
     context "matching auth found" do
@@ -146,6 +146,11 @@ RSpec.describe User, type: :model do
 
       it "should return the auth's user" do
         expect(result).to eq authorization.user
+      end
+
+      it "should update auth data" do
+        result
+        expect(authorization.reload.data).to eq auth
       end
     end
 
