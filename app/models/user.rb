@@ -73,11 +73,17 @@ class User < ActiveRecord::Base
   end
 
   def self.find_or_create_from_omniauth(auth)
-    find_from_omniauth(auth) || create_from_omniauth(auth)
+    find_and_update_from_omniauth(auth) || create_from_omniauth(auth)
   end
 
-  def self.find_from_omniauth(auth)
-    Authorization.where(uid: auth.uid).first.try(:user) || User.where(email: auth.info.email).first
+  def self.find_and_update_from_omniauth(auth)
+    existing_auth = Authorization.where(uid: auth.uid).first
+    unless existing_auth.nil?
+      existing_auth.update_attributes(data: auth)
+      return existing_auth.try(:user)
+    else
+      return nil
+    end
   end
 
   def self.create_from_omniauth(auth)

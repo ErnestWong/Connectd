@@ -1,8 +1,14 @@
-input#user_search type="text" placeholder="Enter username or name..."
+.invitation-form-container
+  h1 Send an Invitation
+  input#user_search type="text" placeholder="Enter username or name..."
 
-= simple_form_for(@invitation) do |f|
-  = f.input :friend_id, as: :hidden, input_html: { id: "user_id_search" }
+  = simple_form_for(@invitation) do |f|
+    = f.input :friend_id, as: :hidden, input_html: { id: "user_id_search" }
 
-  = f.input :socials, collection: current_user.social_profiles, as: :check_boxes, input_html: { checked: true }
 
-  = f.button :submit
+    .homepage-social-media-sign-in
+      - resource_class.omniauth_providers.each do |provider|
+        = link_to image_tag("social_media_icons/#{provider.to_s}.png"), omniauth_authorize_path(:user, provider)
+    = f.input :socials, collection: current_user.social_profiles, as: :check_boxes, input_html: { checked: true }
+
+    = f.button :submit
