@@ -126,14 +126,6 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context "no matching auth but matching user email" do
-      let!(:user) { create :user, email: auth.info.email }
-
-      it "should return user" do
-        expect(result).to eq user
-      end
-    end
-
     context "no user found" do
       it "should create a new user with auth info" do
         expect { result }.to change(User, :count).by(1)
@@ -154,14 +146,6 @@ RSpec.describe User, type: :model do
 
       it "should return the auth's user" do
         expect(result).to eq authorization.user
-      end
-    end
-
-    context "no matching auth but matching user email" do
-      let!(:user) { create :user, email: auth.info.email }
-
-      it "should return user" do
-        expect(result).to eq user
       end
     end
 
