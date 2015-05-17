@@ -1,5 +1,6 @@
 doctype html
 html
+  = favicon_link_tag 'favicon.ico'
   body data-controller="#{params[:controller]}" data-action="#{params[:action]}"
   = render partial: "layouts/header_nav"
   head
