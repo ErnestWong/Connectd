@@ -19,11 +19,17 @@ class InvitationsController < ApplicationController
         Invitation.request(authorization.provider, current_user, friend);
       end
       flash[:notice] = "invitation sent"
-      redirect_to user_path(current_user)
+      respond_to do |format|
+          format.html { redirect_to user_path(current_user) }
+          format.json { render json: @invitation }
+      end
     else
       flash[:notice] = "invitation failed"
       @user = current_user
-      render "new"
+      respond_to do |format|
+          format.html { render "new" }
+          format.json { render json: @user }
+      end
     end
   end
 
