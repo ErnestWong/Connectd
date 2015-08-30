@@ -42,7 +42,7 @@ C.invitations =
       var resultArray = [];
       resultArray = _.map(data, function(user) {
         return {
-          label: user.name,
+          label: user.first_name + " " + user.last_name,
           value: user.id
         };
       });
